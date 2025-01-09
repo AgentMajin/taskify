@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1093</width>
+    <height>701</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">#centralwidget {
+background-image: url(:/icon/img/login-background-3.jpg);
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover; /* Stretches image to match window size */ ;
+}</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="QFrame" name="main_frame">
+      <property name="styleSheet">
+       <string notr="true">#main_frame {
+background-color: rgba(255, 255, 255, 0.2);}
+</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QFrame" name="frame_3">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="login_frame">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>350</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>400</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">#login_frame{
+background-color: rgba(255, 255, 255, 0.2);
+border-radius: 20px}</string>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+           <widget class="QFrame" name="frame">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft JhengHei UI</family>
+                 <pointsize>25</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white</string>
+               </property>
+               <property name="text">
+                <string>Log In</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignTop">
+           <widget class="QFrame" name="frame_2">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="spacing">
+              <number>19</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="lineEdit">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft JhengHei UI</family>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0,0,0,0);
+border: none;
+border-bottom: 1px solid #33fcff;
+color: rgba(255,255,255,230);
+padding-bottom: 7px
+</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="placeholderText">
+                <string>Username</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft JhengHei UI</family>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgb(0,0,0,0);
+border: none;
+border-bottom: 1px solid #33fcff;
+color: rgba(255,255,255,230);
+padding-bottom: 7px
+</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="echoMode">
+                <enum>QLineEdit::Password</enum>
+               </property>
+               <property name="placeholderText">
+                <string>Password</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter|Qt::AlignTop">
+           <widget class="QFrame" name="frame_5">
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_5">
+             <item>
+              <widget class="QPushButton" name="login_button">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft JhengHei UI</family>
+                 <pointsize>-1</pointsize>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">#login_button {
+    background-color: #335eff;       /* Blue background */
+    color: white;                   /* White text */
+    font-size: 16px;                /* Text size */
+    font-weight: bold;              /* Bold text */
+    border:none;      /* Border with a darker blue */
+    border-radius: 5px;            /* Rounded corners */
+    padding: 10px 20px;             /* Internal padding */
+}
+
+#login_button:hover {
+    background-color: #5e33ff;      /* Darker blue on hover */
+}
+
+#login_button:pressed {
+    background-color: #350e95;      /* Dark blue when pressed */
+    color: #e6e6e6;                 /* Slightly lighter text */
+}
+</string>
+               </property>
+               <property name="text">
+                <string>Login</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item alignment="Qt::AlignHCenter">
+           <widget class="QFrame" name="frame_6">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="frameShape">
+             <enum>QFrame::StyledPanel</enum>
+            </property>
+            <property name="frameShadow">
+             <enum>QFrame::Raised</enum>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Microsoft JhengHei UI</family>
+                 <pointsize>11</pointsize>
+                 <weight>50</weight>
+                 <bold>false</bold>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">color: white</string>
+               </property>
+               <property name="text">
+                <string>Have a nice working day!</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="frame_4">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="../resources/icon.qrc"/>
+ </resources>
+ <connections/>
+</ui>
