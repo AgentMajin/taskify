@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>956</width>
-    <height>519</height>
+    <width>952</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -325,6 +325,9 @@ padding: 0px;</string>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background:transparent</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -347,10 +350,10 @@ padding: 0px;</string>
           <property name="bottomMargin">
            <number>0</number>
           </property>
-          <item alignment="Qt::AlignLeft|Qt::AlignTop">
+          <item alignment="Qt::AlignTop">
            <widget class="QFrame" name="menu_frame">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -361,12 +364,15 @@ padding: 0px;</string>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QGridLayout" name="gridLayout">
+            <layout class="QVBoxLayout" name="verticalLayout_8">
+             <property name="spacing">
+              <number>26</number>
+             </property>
              <property name="leftMargin">
-              <number>9</number>
+              <number>0</number>
              </property>
              <property name="topMargin">
-              <number>7</number>
+              <number>0</number>
              </property>
              <property name="rightMargin">
               <number>0</number>
@@ -374,172 +380,304 @@ padding: 0px;</string>
              <property name="bottomMargin">
               <number>0</number>
              </property>
-             <property name="horizontalSpacing">
-              <number>20</number>
-             </property>
-             <property name="verticalSpacing">
-              <number>30</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QPushButton" name="my_day_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Microsoft JhengHei</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item>
+              <widget class="QFrame" name="item_frame_1">
                <property name="styleSheet">
-                <string notr="true">border: none;
+                <string notr="true">#item_frame_1::hover {
+    background-color: rgba(255, 255, 255, 0.8); 
+}</string>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <item>
+                 <widget class="QPushButton" name="my_day_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Microsoft JhengHei</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border: none;
 text-color: rgb(0,0,0);
 </string>
-               </property>
-               <property name="text">
-                <string>My Day</string>
-               </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/sun.png</normaloff>:/icon/icons/sun.png</iconset>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
+                  </property>
+                  <property name="text">
+                   <string>    My Day</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resources/icon.qrc">
+                    <normaloff>:/icon/icons/sun.png</normaloff>:/icon/icons/sun.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="blank_frame_5">
+                  <property name="styleSheet">
+                   <string notr="true"/>
+                  </property>
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QPushButton" name="assign_me_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Microsoft JhengHei</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item>
+              <widget class="QFrame" name="item_frame_2">
                <property name="styleSheet">
-                <string notr="true">border: none;</string>
+                <string notr="true">#item_frame_2::hover {
+    background-color: rgba(255, 255, 255, 0.8); 
+}</string>
                </property>
-               <property name="text">
-                <string>Assigned to me</string>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/user.png</normaloff>:/icon/icons/user.png</iconset>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_12">
+                <item>
+                 <widget class="QPushButton" name="important_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Microsoft JhengHei</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border: none;</string>
+                  </property>
+                  <property name="text">
+                   <string>    Important</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resources/icon.qrc">
+                    <normaloff>:/icon/icons/star.png</normaloff>:/icon/icons/star.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="blank_frame_4">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QPushButton" name="task_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Microsoft JhengHei</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item>
+              <widget class="QFrame" name="item_frame_3">
                <property name="styleSheet">
-                <string notr="true">border: none</string>
+                <string notr="true">#item_frame_3::hover {
+    background-color: rgba(255, 255, 255, 0.8); 
+}</string>
                </property>
-               <property name="text">
-                <string>All Tasks</string>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/home.png</normaloff>:/icon/icons/home.png</iconset>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_13">
+                <item>
+                 <widget class="QPushButton" name="planned_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Microsoft JhengHei</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border: none;</string>
+                  </property>
+                  <property name="text">
+                   <string>    Planned</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resources/icon.qrc">
+                    <normaloff>:/icon/icons/plan.png</normaloff>:/icon/icons/plan.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="blank_frame_3">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
-             <item row="2" column="0">
-              <widget class="QPushButton" name="planned_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Microsoft JhengHei</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item>
+              <widget class="QFrame" name="item_frame_4">
                <property name="styleSheet">
-                <string notr="true">border: none;</string>
+                <string notr="true">#item_frame_4::hover {
+    background-color: rgba(255, 255, 255, 0.8); 
+}</string>
                </property>
-               <property name="text">
-                <string>Planned</string>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/plan.png</normaloff>:/icon/icons/plan.png</iconset>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_14">
+                <item>
+                 <widget class="QPushButton" name="assign_me_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Microsoft JhengHei</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border: none;</string>
+                  </property>
+                  <property name="text">
+                   <string>    Assigned to me</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resources/icon.qrc">
+                    <normaloff>:/icon/icons/user.png</normaloff>:/icon/icons/user.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="blank_frame_2">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
-             <item row="1" column="0">
-              <widget class="QPushButton" name="important_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Microsoft JhengHei</family>
-                 <pointsize>10</pointsize>
-                </font>
-               </property>
+             <item>
+              <widget class="QFrame" name="item_frame_5">
                <property name="styleSheet">
-                <string notr="true">border: none;</string>
+                <string notr="true">#item_frame_5::hover {
+    background-color: rgba(255, 255, 255, 0.8); 
+}</string>
                </property>
-               <property name="text">
-                <string>Important</string>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
                </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/star.png</normaloff>:/icon/icons/star.png</iconset>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
                </property>
-               <property name="iconSize">
-                <size>
-                 <width>25</width>
-                 <height>25</height>
-                </size>
-               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_15">
+                <item>
+                 <widget class="QPushButton" name="task_button">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Microsoft JhengHei</family>
+                    <pointsize>10</pointsize>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">border: none</string>
+                  </property>
+                  <property name="text">
+                   <string>    All Tasks</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../resources/icon.qrc">
+                    <normaloff>:/icon/icons/home.png</normaloff>:/icon/icons/home.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>25</width>
+                    <height>25</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="blank_frame">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
               </widget>
              </item>
             </layout>
@@ -600,7 +738,7 @@ text-color: rgb(0,0,0);
     <item>
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page">
        <layout class="QVBoxLayout" name="verticalLayout_32">
@@ -622,13 +760,14 @@ text-color: rgb(0,0,0);
         <item>
          <widget class="QFrame" name="Task">
           <property name="styleSheet">
-           <string notr="true">#Task{
-margin: 0px;
-background-image: url(:/icon/img/note-background.jpg);
-background-position: center;
-border-radius: 10px}
-
-</string>
+           <string notr="true">#Task {
+    margin: 0px;
+    background-image: url(:/icon/img/note-background.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+	background-size: 100% 100%;
+}</string>
           </property>
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
@@ -3291,6 +3430,9 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill.png); height: 
        <enum>QFrame::Raised</enum>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="spacing">
+        <number>20</number>
+       </property>
        <item>
         <widget class="QFrame" name="close_frame">
          <property name="sizePolicy">
