@@ -21,15 +21,16 @@ class LoginController(QMainWindow):
 
     def authenticate(self):
         username = self.ui.lineEdit.text()
-    password = self.ui.lineEdit_2.text()
+        password = self.ui.lineEdit_2.text()
 
-    if self.validate_cred(username, password):
-        print("Login Successful")
-        self.accept()
-    else:
-        self.ui.label_3.setText("Login Failed! Check your username and password")
-        self.ui.lineEdit.clear()
-        self.ui.lineEdit_2.clear()
+        if self.validate_cred(username, password):
+            print("Login Successful")
+            self.ui.label_3.setText("Login Successful")
+            # self.accept()
+        else:
+            self.ui.label_3.setText("Login Failed! Check your username and password")
+            self.ui.lineEdit.clear()
+            self.ui.lineEdit_2.clear()
 
     def validate_cred(self, username, password):
         if username == "admin" and password == "admin":
