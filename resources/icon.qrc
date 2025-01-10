@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="icon">
+    <file>img/important-bg.jpg</file>
+    <file>img/important-bg-2.jpg</file>
     <file>img/login-background-3.jpg</file>
     <file>img/login-background-2.jpg</file>
     <file>img/login-background.jpg</file>
