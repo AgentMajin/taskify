@@ -26,7 +26,7 @@ class LoginController(QMainWindow):
         if self.validate_cred(username, password):
             print("Login Successful")
             self.ui.label_3.setText("Login Successful")
-            # self.accept()
+            self.open_main_page()
         else:
             self.ui.label_3.setText("Login Failed! Check your username and password")
             self.ui.lineEdit.clear()
@@ -36,6 +36,12 @@ class LoginController(QMainWindow):
         if username == "admin" and password == "admin":
             return True
         return False
+
+    def open_main_page(self):
+        from main_controller import MainController
+        self.main_window = MainController()
+        self.main_window.show()
+        self.close()
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)
