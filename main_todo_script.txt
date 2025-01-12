@@ -5,8 +5,8 @@ CREATE TABLE IF NOT EXISTS Users (
     Email TEXT UNIQUE NOT NULL,
     Password TEXT NOT NULL,
     Name TEXT,
-    DateOfBirth TEXT, -- Stored as ISO 8601 string (YYYY-MM-DD)
-    IsActive INTEGER DEFAULT 1 -- SQLite uses INTEGER for booleans
+    DateOfBirth TEXT,
+    IsActive INTEGER DEFAULT 1
 );
 
 -- Create TaskStatus table
@@ -30,9 +30,9 @@ CREATE TABLE IF NOT EXISTS Tasks (
     Title TEXT NOT NULL,
     Description TEXT,
     Notes TEXT,
-    DueDate TEXT, -- Stored as ISO 8601 string (YYYY-MM-DD HH:MM:SS)
-    IsCompleted INTEGER DEFAULT 0, -- SQLite uses INTEGER for booleans
-    Priority INTEGER DEFAULT 0,
+    DueDate TEXT,
+    IsCompleted INTEGER DEFAULT 0,
+    Priority INTEGER DEFAULT 1, -- Default priority 1
     CategoryID INTEGER NOT NULL,
     StatusID INTEGER NOT NULL,
     FOREIGN KEY (UserID) REFERENCES Users(UserID) ON DELETE CASCADE,
@@ -65,6 +65,6 @@ INSERT OR IGNORE INTO Users (UserName, Email, Password, Name, DateOfBirth) VALUE
 INSERT OR IGNORE INTO Tasks (UserID, Title, Description, Notes, DueDate, IsCompleted, Priority, CategoryID, StatusID) VALUES 
 (1, 'Complete project report', 'Prepare the final report for Q4 project.', 'Include financial analysis section and review by Tuesday.', '2025-01-15', 0, 2, 1, 2), -- Work, In Progress
 (1, 'Buy groceries', 'Get fruits, vegetables, and milk from the store.', 'Check for any discounts or offers.', '2025-01-12', 0, 1, 2, 1), -- Personal, Pending
-(2, 'Plan family vacation', 'Research vacation destinations for the family summer trip.', NULL, '2025-03-01', 0, 0, 3, 1), -- Family, Pending
+(2, 'Plan family vacation', 'Research vacation destinations for the family summer trip.', NULL, '2025-03-01', 0, 1, 3, 1), -- Family, Pending
 (3, 'Organize bookshelf', 'Sort books by genre and clean the shelves.', NULL, '2025-01-18', 0, 1, 2, 1), -- Personal, Pending
 (2, 'Team meeting', 'Discuss project timelines and deliverables with the team.', 'Prepare slides for presentation.', '2025-01-14', 0, 2, 1, 2); -- Work, In Progress
