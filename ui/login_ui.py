@@ -18,9 +18,9 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setStyleSheet("#centralwidget {\n"
-"background-image: url(:/icon/img/login-background-3.jpg);\n"
-"background-position: center;\n"
-"background-attachment: fixed;}")
+                                         "background-image: url(:/icon/img/login-background-3.jpg);\n"
+                                         "background-position: center;\n"
+                                         "background-attachment: fixed;}")
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -28,8 +28,8 @@ class Ui_MainWindow(object):
         self.verticalLayout.setObjectName("verticalLayout")
         self.main_frame = QtWidgets.QFrame(self.centralwidget)
         self.main_frame.setStyleSheet("#main_frame {\n"
-"background-color: rgba(255, 255, 255, 0.2);}\n"
-"")
+                                      "background-color: rgba(255, 255, 255, 0.2);}\n"
+                                      "")
         self.main_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.main_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.main_frame.setObjectName("main_frame")
@@ -52,8 +52,8 @@ class Ui_MainWindow(object):
         self.login_frame.setMinimumSize(QtCore.QSize(350, 0))
         self.login_frame.setMaximumSize(QtCore.QSize(16777215, 400))
         self.login_frame.setStyleSheet("#login_frame{\n"
-"background-color: rgba(255, 255, 255, 0.2);\n"
-"border-radius: 20px}")
+                                       "background-color: rgba(255, 255, 255, 0.2);\n"
+                                       "border-radius: 20px}")
         self.login_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.login_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.login_frame.setObjectName("login_frame")
@@ -89,7 +89,7 @@ class Ui_MainWindow(object):
         self.label.setStyleSheet("color: white")
         self.label.setObjectName("label")
         self.verticalLayout_3.addWidget(self.label)
-        self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
+        self.verticalLayout_2.addWidget(self.frame, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignVCenter)
         self.frame_2 = QtWidgets.QFrame(self.login_frame)
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -109,11 +109,11 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.lineEdit.setFont(font)
         self.lineEdit.setStyleSheet("background-color: rgb(0,0,0,0);\n"
-"border: none;\n"
-"border-bottom: 1px solid #33fcff;\n"
-"color: rgba(255,255,255,230);\n"
-"padding-bottom: 7px\n"
-"")
+                                    "border: none;\n"
+                                    "border-bottom: 1px solid #33fcff;\n"
+                                    "color: rgba(255,255,255,230);\n"
+                                    "padding-bottom: 7px\n"
+                                    "")
         self.lineEdit.setText("")
         self.lineEdit.setObjectName("lineEdit")
         self.verticalLayout_4.addWidget(self.lineEdit)
@@ -129,11 +129,11 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.lineEdit_2.setFont(font)
         self.lineEdit_2.setStyleSheet("background-color: rgb(0,0,0,0);\n"
-"border: none;\n"
-"border-bottom: 1px solid #33fcff;\n"
-"color: rgba(255,255,255,230);\n"
-"padding-bottom: 7px\n"
-"")
+                                      "border: none;\n"
+                                      "border-bottom: 1px solid #33fcff;\n"
+                                      "color: rgba(255,255,255,230);\n"
+                                      "padding-bottom: 7px\n"
+                                      "")
         self.lineEdit_2.setText("")
         self.lineEdit_2.setEchoMode(QtWidgets.QLineEdit.Password)
         self.lineEdit_2.setObjectName("lineEdit_2")
@@ -158,27 +158,27 @@ class Ui_MainWindow(object):
         font.setWeight(75)
         self.login_button.setFont(font)
         self.login_button.setStyleSheet("#login_button {\n"
-"    background-color: #335eff;       /* Blue background */\n"
-"    color: white;                   /* White text */\n"
-"    font-size: 16px;                /* Text size */\n"
-"    font-weight: bold;              /* Bold text */\n"
-"    border:none;      /* Border with a darker blue */\n"
-"    border-radius: 5px;            /* Rounded corners */\n"
-"    padding: 10px 20px;             /* Internal padding */\n"
-"}\n"
-"\n"
-"#login_button:hover {\n"
-"    background-color: #5e33ff;      /* Darker blue on hover */\n"
-"}\n"
-"\n"
-"#login_button:pressed {\n"
-"    background-color: #350e95;      /* Dark blue when pressed */\n"
-"    color: #e6e6e6;                 /* Slightly lighter text */\n"
-"}\n"
-"")
+                                        "    background-color: #335eff;       /* Blue background */\n"
+                                        "    color: white;                   /* White text */\n"
+                                        "    font-size: 16px;                /* Text size */\n"
+                                        "    font-weight: bold;              /* Bold text */\n"
+                                        "    border:none;      /* Border with a darker blue */\n"
+                                        "    border-radius: 5px;            /* Rounded corners */\n"
+                                        "    padding: 10px 20px;             /* Internal padding */\n"
+                                        "}\n"
+                                        "\n"
+                                        "#login_button:hover {\n"
+                                        "    background-color: #5e33ff;      /* Darker blue on hover */\n"
+                                        "}\n"
+                                        "\n"
+                                        "#login_button:pressed {\n"
+                                        "    background-color: #350e95;      /* Dark blue when pressed */\n"
+                                        "    color: #e6e6e6;                 /* Slightly lighter text */\n"
+                                        "}\n"
+                                        "")
         self.login_button.setObjectName("login_button")
         self.verticalLayout_5.addWidget(self.login_button)
-        self.verticalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
+        self.verticalLayout_2.addWidget(self.frame_5, 0, QtCore.Qt.AlignHCenter | QtCore.Qt.AlignTop)
         self.frame_6 = QtWidgets.QFrame(self.login_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -227,14 +227,17 @@ class Ui_MainWindow(object):
         self.lineEdit_2.setPlaceholderText(_translate("MainWindow", "Password"))
         self.login_button.setText(_translate("MainWindow", "Login"))
         self.label_3.setText(_translate("MainWindow", "Have a nice working day!"))
+
+
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc
 
+import icon_rc
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
