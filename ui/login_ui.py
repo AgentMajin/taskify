@@ -20,7 +20,8 @@ class Ui_MainWindow(object):
         self.centralwidget.setStyleSheet("#centralwidget {\n"
                                          "background-image: url(:/icon/img/login-background-3.jpg);\n"
                                          "background-position: center;\n"
-                                         "background-attachment: fixed;}")
+                                         "background-attachment: fixed;}\n"
+                                         "QFrame {border: none;\n}")
         self.centralwidget.setObjectName("centralwidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
