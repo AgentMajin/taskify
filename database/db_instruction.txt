@@ -1,0 +1,11 @@
+Mở docker, mở terminal chạy lệnh: 
+docker compose -f database/docker-compose.yml up -d
+
+# DB sẽ khởi tạo
+# Dùng bất kỳ tool nào đó để connect vào SQL server.
+# IP: localhost
+# Username: sa
+# Pass: Testing@123 (trong file docker-compose.yml)
+
+# Sau khi connect vào DB, chạy tất cả trong database/init.db để khởi tạo DB và dữ liệu ban đầu.
+(chạy lệnh CREATE DATABASE đầu tiên rồi mới chạy các lệnh còn lại)
