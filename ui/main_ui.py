@@ -30,6 +30,7 @@ class Ui_MainWindow(object):
         MainWindow.setStyleSheet("#MainWindow {\n"
 "background-color: rgba(243,243,243);}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setStyleSheet("QFrame {border: none;\n}")
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Expanding)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
