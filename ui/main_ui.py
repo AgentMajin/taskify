@@ -431,7 +431,7 @@ class Ui_MainWindow(object):
         self.task_title_5 = QtWidgets.QLabel(self.task_title_frame_5)
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(20)
+        font.setPointSize(30)
         font.setBold(True)
         font.setWeight(75)
         self.task_title_5.setFont(font)
