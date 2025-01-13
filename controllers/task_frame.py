@@ -4,22 +4,23 @@ from PyQt5.QtCore import pyqtSignal
 
 class TaskFrame(QtWidgets.QFrame):
     """
-    A custom QFrame representing a task. Each task includes:
-    - A checkbox for marking it as done.
-    - A label for the task title.
-    - A checkbox for marking it as important.
+    A reusable frame for tasks, supporting both completed and active tasks.
+    - Includes done and important checkboxes.
+    - Emits signals for updates and clicks.
     """
 
     # Define custom signals
     task_updated = pyqtSignal(dict)  # Signal emitted when the task is updated
-    task_clicked = pyqtSignal(dict)  # Emitted when the task frame is clicked
+    task_clicked = pyqtSignal(dict)  # Signal emitted when the task is clicked
 
-    def __init__(self, task_id, task_model, parent=None):
+    def __init__(self, task_id, task_model, completed=False, parent=None):
         super().__init__(parent)
         self.task_id = task_id
         self.task_model = task_model
-        self.task_data = self.task_model.get_a_task(self.task_id)  # Store task data
+        self.task_data = self.task_model.get_a_task(self.task_id)  # Fetch task data
+        self.completed = completed  # Flag to differentiate between active and completed tasks
 
+        # Initialize frame styling
         self.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.setMinimumHeight(60)
         self.setStyleSheet("""
@@ -31,17 +32,15 @@ class TaskFrame(QtWidgets.QFrame):
         self.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.setFrameShadow(QtWidgets.QFrame.Raised)
 
-        # Main layout for the task frame
+        # Create and set up the layout
         self.main_layout = QtWidgets.QHBoxLayout(self)
         self.main_layout.setContentsMargins(-1, -1, -1, 9)
 
-        # Task name and done checkbox
+        # Create subcomponents
         self.task_name_frame = self._create_task_name_frame()
-
-        # Important checkbox
         self.important_frame = self._create_important_frame()
 
-        # Add subframes to the main layout
+        # Add subcomponents to the layout
         self.main_layout.addWidget(self.task_name_frame, 0, QtCore.Qt.AlignLeft)
         self.main_layout.addWidget(self.important_frame, 0, QtCore.Qt.AlignRight)
 
@@ -49,8 +48,9 @@ class TaskFrame(QtWidgets.QFrame):
         """
         Create the frame containing the task title and done checkbox.
         """
-        task_title = self.task_data['title']
-        task_done = self.task_data['completed']
+        task_title = self.task_data["title"]
+        task_done = self.task_data["completed"]
+
         frame = QtWidgets.QFrame()
         frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -83,9 +83,11 @@ class TaskFrame(QtWidgets.QFrame):
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
+        if self.completed:
+            font.setStrikeOut(True)  # Strike through for completed tasks
         self.task_name_label.setFont(font)
 
-        # Add checkbox and label to the layout
+        # Add components to the layout
         layout.addWidget(self.done_check)
         layout.addWidget(self.task_name_label)
 
@@ -95,7 +97,8 @@ class TaskFrame(QtWidgets.QFrame):
         """
         Create the frame containing the important checkbox.
         """
-        is_important = self.task_data['important']
+        is_important = self.task_data["important"]
+
         frame = QtWidgets.QFrame()
         frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         frame.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -126,7 +129,7 @@ class TaskFrame(QtWidgets.QFrame):
         self.important_check.setChecked(is_important)
         self.important_check.toggled.connect(self.update_important_status)
 
-        # Add checkbox to the layout
+        # Add the checkbox to the layout
         layout.addWidget(self.important_check)
 
         return frame
@@ -135,31 +138,32 @@ class TaskFrame(QtWidgets.QFrame):
         """
         Emit signal when the frame is clicked.
         """
-
         self.refresh_data()
         self.task_clicked.emit(self.task_data)
         super().mousePressEvent(event)
 
     def refresh_data(self):
         """
-        Load task details from the database and update the UI.
+        Reload task data from the database and update the UI.
         """
         self.task_data = self.task_model.get_a_task(self.task_id)
 
     def update_done_status(self, checked):
         """
-        Update the "done" status of the task in the database.
+        Update the 'done' status in the database.
         """
         done_check = self.done_check.isChecked()
         self.task_model.update_task(self.task_id, completed=done_check)
         self.refresh_data()
-        self.task_updated.emit(self.task_data)  # Emit signal to notify other components
+        self.task_updated.emit(self.task_data)
 
     def update_important_status(self, checked):
         """
-        Update the "important" status of the task in the database.
+        Update the 'important' status in the database.
         """
         is_important = self.important_check.isChecked()
         self.task_model.update_task(self.task_id, important=is_important)
         self.refresh_data()
-        self.task_updated.emit(self.task_data)  # Emit signal to notify other components
+        self.task_updated.emit(self.task_data)
+
+
