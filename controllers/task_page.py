@@ -218,12 +218,20 @@ class TaskPage(QWidget):
     def filter_task(self, tasks):
         today = date.today()
         filtered_tasks = tasks
+
+        # Filter important tasks
         if self.important_only:
-            filtered_tasks = [task for task in tasks if task["important"]==True]
+            filtered_tasks = [task for task in filtered_tasks if task.get("important", False)]
+
+        # Filter overdue tasks
         if self.overdued_only:
-            filtered_tasks = [task for task in tasks if
-                     datetime.strptime(task['due_date'],'%d/%m/%Y').date() >= today
-                     and not task["completed"]]
+            filtered_tasks = []
+            for task in tasks:
+                due_date_str = task.get('due_date') or '01/01/1970'  # Use default if due_date is None or empty
+                due_date = datetime.strptime(due_date_str, "%d/%m/%Y").date()
+                if not task.get('completed', False) and due_date < today:
+                    filtered_tasks.append(task)
+
         return filtered_tasks
 
 

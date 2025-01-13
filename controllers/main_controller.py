@@ -1,17 +1,17 @@
 import sys
 import os
 from datetime import date, datetime
-
 from PyQt5.QtCore import QObject, Qt, pyqtSignal, QDate
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame
 
+# Add paths for importing custom modules
 sys.path.append(os.path.join(os.path.dirname(__file__), 'models'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'ui'))
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame
 from ui.main_ui import Ui_MainWindow  # Import the generated UI class
 from models.main_model import TaskModel  # Import the task model
 from task_frame import TaskFrame  # Import the custom task frame
-from task_page import TaskPage
+from task_page import TaskPage  # Import the custom task page
 
 
 class MainController(QMainWindow):
@@ -25,26 +25,32 @@ class MainController(QMainWindow):
         self.task_model = TaskModel()
 
         # Connect UI buttons to their respective methods
-        self.ui.add_task_button.clicked.connect(self.add_task)
-        self.ui.delete_task_button.clicked.connect(self.delete_task)
-        self.ui.input_note.editingFinished.connect(self.add_note)
-        self.ui.due_date_input.dateChanged.connect(self.update_duedate)
-        self.ui.add_check.toggled.connect(self.update_important)
+        self.ui.add_task_button.clicked.connect(self.add_task)  # Handle adding a task
+        self.ui.delete_task_button.clicked.connect(self.delete_task)  # Handle deleting a task
+        self.ui.input_note.editingFinished.connect(self.add_note)  # Handle saving a note
+        self.ui.due_date_input.dateChanged.connect(self.update_duedate)  # Handle due date updates
+        self.ui.add_check.toggled.connect(self.update_important)  # Handle toggling importance
 
-        # Init Task Pages
+        # Initialize and add task pages
         self.init_task_pages()
 
+        # Connect navigation buttons to change stacked widget pages
         self.ui.task_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.important_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
         self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
 
     def init_task_pages(self):
+        """
+        Initialize and add pages for different task views.
+        """
+        # All Tasks Page
         self.all_task_page = TaskPage(data_model=self.task_model,
                                       bg_url="url(:/icon/img/note-background.jpg)",
                                       title="All Tasks")
         self.ui.stackedWidget.addWidget(self.all_task_page)
         self.all_task_page.add_task_button.clicked.connect(self.reload)
 
+        # Important Tasks Page
         self.important_task_page = TaskPage(data_model=self.task_model,
                                             bg_url="url(:/icon/img/important-bg.jpg)",
                                             title="Important Tasks",
@@ -52,38 +58,46 @@ class MainController(QMainWindow):
         self.ui.stackedWidget.addWidget(self.important_task_page)
         self.important_task_page.add_task_button.clicked.connect(self.reload)
 
+        # Overdue Tasks Page
         self.overdued_task = TaskPage(data_model=self.task_model,
                                       bg_url="url(:/icon/img/note-background-3.png)",
                                       title="Overdued Tasks",
-                                      show_completed=False)
+                                      show_completed=False,
+                                      overdued_only=True)
         self.ui.stackedWidget.addWidget(self.overdued_task)
         self.overdued_task.add_task_button.clicked.connect(self.reload)
 
+        # Load tasks into all pages
         self.load_all_tasks()
 
     def load_all_tasks(self):
         """
-        Load tasks from the database and display them in the all task list widget.
+        Load tasks into each task page.
         """
         self.all_task_page.reload_task(
-                              task_clicked_callback=self.update_task_details,
-                              task_updated_callback=[self.update_task_details, self.reload])
+            task_clicked_callback=self.update_task_details,
+            task_updated_callback=[self.update_task_details, self.reload]
+        )
 
         self.important_task_page.reload_task(
-                              task_clicked_callback=self.update_task_details,
-                              task_updated_callback=[self.update_task_details, self.reload])
+            task_clicked_callback=self.update_task_details,
+            task_updated_callback=[self.update_task_details, self.reload]
+        )
 
         self.overdued_task.reload_task(
-                              task_clicked_callback=self.update_task_details,
-                              task_updated_callback=[self.update_task_details, self.reload])
-
+            task_clicked_callback=self.update_task_details,
+            task_updated_callback=[self.update_task_details, self.reload]
+        )
 
     def reload(self):
+        """
+        Reload tasks in all task pages.
+        """
         self.load_all_tasks()
 
     def add_task(self):
         """
-        Add a new task to the database and update the task list widget.
+        Add a new task to the database and reload the task list.
         """
         task_title = self.ui.task_input_4.text().strip()
         if not task_title:
@@ -101,7 +115,7 @@ class MainController(QMainWindow):
 
     def clear_layout(self, layout):
         """
-        Remove all widgets from a layout.
+        Remove all widgets from a given layout.
         """
         while layout.count():
             item = layout.takeAt(0)
@@ -114,14 +128,18 @@ class MainController(QMainWindow):
         Update the task details section with the selected task's information.
         """
         if task_data.get('due_date'):
+            # Convert due date string to QDate and block signals to prevent unintended updates
             date_pyqt = QDate.fromString(task_data['due_date'], "dd/MM/yyyy")
             self.ui.due_date_input.blockSignals(True)
             self.ui.due_date_input.setDate(date_pyqt)
             self.ui.due_date_input.blockSignals(False)
         else:
+            # Set default date if no due date is provided
             self.ui.due_date_input.blockSignals(True)
             self.ui.due_date_input.setDate(QDate(1970, 1, 1))
             self.ui.due_date_input.blockSignals(False)
+
+        # Update other task details in the UI
         self.current_task_id = task_data['id']
         self.ui.task_title_2.setText(task_data['title'])
         self.ui.add_check.setChecked(task_data['important'])
@@ -131,7 +149,7 @@ class MainController(QMainWindow):
 
     def delete_task(self):
         """
-        Delete the selected task from the database.
+        Delete the selected task from the database and reload the task list.
         """
         reply = QMessageBox.question(self, "Delete Task", "Are you sure you want to delete this task?", QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
@@ -140,20 +158,30 @@ class MainController(QMainWindow):
             self.load_all_tasks()
 
     def add_note(self):
+        """
+        Save a note for the currently selected task.
+        """
         note_text = self.ui.input_note.text().strip()
         if note_text:
             self.task_model.update_task(self.current_task_id, description=note_text)
-            QMessageBox.information(self,"Description", "Your Description has been saved!")
+            QMessageBox.information(self, "Description", "Your Description has been saved!")
             self.load_all_tasks()
 
     def update_duedate(self, newdate):
+        """
+        Update the due date for the currently selected task.
+        """
         date_string = newdate.toString('dd/MM/yyyy')
         self.task_model.update_task(self.current_task_id, due_date=date_string)
         self.reload()
 
     def update_important(self):
+        """
+        Update the importance status for the currently selected task.
+        """
         self.task_model.update_task(self.current_task_id, important=self.ui.add_check.isChecked())
         self.reload()
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
