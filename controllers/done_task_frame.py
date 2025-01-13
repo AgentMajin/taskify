@@ -164,3 +164,19 @@ class DoneTaskFrame(QtWidgets.QFrame):
         self.task_model.update_task(self.task_id, important=is_important)
         self.refresh_data()
         self.task_updated.emit(self.task_data)  # Emit signal to notify other components
+
+    @staticmethod
+    def reload_task(task_model, layout, is_completed, task_clicked_callback, task_updated_callback: list):
+        while layout.count():
+            item = layout.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+        tasks = task_model.get_all_tasks()
+        for task in tasks:
+            if task["completed"] == is_completed:
+                task_frame = DoneTaskFrame(task["id"], task_model)
+                layout.addWidget(task_frame)
+                task_frame.task_clicked.connect(task_clicked_callback)
+                for load_all_tasks in task_updated_callback:
+                    task_frame.task_updated.connect(load_all_tasks)

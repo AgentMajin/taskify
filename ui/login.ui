@@ -52,6 +52,8 @@ background-size: cover; /* Stretches image to match window size */ ;
       <property name="styleSheet">
        <string notr="true">#main_frame {
 background-color: rgba(255, 255, 255, 0.2);}
+
+QFrame {border: none}
 </string>
       </property>
       <property name="frameShape">
