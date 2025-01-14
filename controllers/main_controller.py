@@ -25,6 +25,7 @@ class MainController(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.current_task_id = None
+        self.selected_menu_item = None
 
         # Initialize the TaskModel
         self.task_model = TaskModel()
@@ -50,6 +51,11 @@ class MainController(QMainWindow):
         self.ui.important_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
         self.ui.overdued_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
         self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
+
+        self.ui.task_button.clicked.connect(self.highlight_selected_item)
+        self.ui.important_button.clicked.connect(self.highlight_selected_item)
+        self.ui.overdued_button.clicked.connect(self.highlight_selected_item)
+        self.ui.my_day_button.clicked.connect(self.highlight_selected_item)
 
 
 
@@ -155,7 +161,6 @@ class MainController(QMainWindow):
         """
         Update the task details section with the selected task's information.
         """
-        print(task_data)
         # Update due date information
         if task_data.get('due_date'):
             # Convert due date string to QDate and block signals to prevent unintended updates
@@ -263,6 +268,20 @@ class MainController(QMainWindow):
             self.ui.myday_check.setText("Add to My Day")
         self.task_model.update_task(self.current_task_id, is_myday=self.ui.myday_check.isChecked())
         self.reload()
+
+    def highlight_selected_item(self):
+        if self.selected_menu_item:
+            frame_name = self.selected_menu_item.objectName()
+            self.selected_menu_item.setStyleSheet(f"#{frame_name}::hover" + "{background-color: rgba(255, 255, 255, "
+                                                  "0.8); \n}")
+
+        sender = self.sender()
+        parent_frame = sender.parent()
+        parent_frame_name = parent_frame.objectName()
+        parent_frame.setStyleSheet("background-color: rgb(255, 255, 255);")
+
+        self.selected_menu_item = parent_frame
+
 
     def close_page(self):
         if self.ui.task_details_frame.isHidden():

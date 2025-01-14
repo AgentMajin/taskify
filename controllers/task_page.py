@@ -248,7 +248,7 @@ class TaskPage(QWidget):
             for task in incompleted_task:
                 due_date_str = task.get('due_date') or '01/01/1970'  # Use default if due_date is None or empty
                 due_date = datetime.strptime(due_date_str, "%d/%m/%Y").date()
-                if due_date < today:
+                if due_date < today and due_date != datetime.strptime('01/01/1970', '%d/%m/%Y').date():
                     filtered_tasks.append(task)
 
         # Filter myday Tasks

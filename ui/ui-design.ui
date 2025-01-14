@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1233</width>
-    <height>786</height>
+    <width>1001</width>
+    <height>537</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -3549,7 +3549,7 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/check_fill.png); height:
                 </font>
                </property>
                <property name="text">
-                <string>Task Title Task Title Task Title Task Title</string>
+                <string/>
                </property>
                <property name="wordWrap">
                 <bool>true</bool>
