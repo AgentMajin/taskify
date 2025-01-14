@@ -1,6 +1,6 @@
 import sys
 import os
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from PyQt5.QtCore import QObject, Qt, pyqtSignal, QDate
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame, QStyleFactory
 
@@ -13,6 +13,11 @@ from models.main_model import TaskModel  # Import the task model
 from task_frame import TaskFrame  # Import the custom task frame
 from task_page import TaskPage  # Import the custom task page
 
+# Config date string
+today = date.today()
+# today = (date.today() + timedelta(days=1))
+today_str = today.strftime("%d/%m/%Y")
+tomorrow_str = (today + timedelta(days=1)).strftime('%d/%m/%Y')
 
 class MainController(QMainWindow):
     def __init__(self):
@@ -23,13 +28,19 @@ class MainController(QMainWindow):
 
         # Initialize the TaskModel
         self.task_model = TaskModel()
+        self.task_model.add_column_if_not_exists(table_name="Tasks", column_name="is_myday", column_type="boolean")
+        self.task_model.add_column_if_not_exists(table_name="Tasks", column_name="expired_date_myday",
+                                                 column_type="text")
 
         # Connect UI buttons to their respective methods
         self.ui.delete_task_button.clicked.connect(self.delete_task)  # Handle deleting a task
         self.ui.input_note.editingFinished.connect(self.add_note)  # Handle saving a note
         self.ui.due_date_input.dateChanged.connect(self.update_duedate)  # Handle due date updates
-        self.ui.add_check.toggled.connect(self.update_important)  # Handle toggling importance
+        self.ui.important_check.toggled.connect(self.update_important)  # Handle toggling importance
         self.ui.close_button.clicked.connect(self.close_page)
+        self.ui.task_title_2.textChanged.connect(self.update_task_title)
+        self.ui.done_check_3.toggled.connect(self.update_completed)
+        self.ui.myday_check.toggled.connect(self.update_myday)
 
         # Initialize and add task pages
         self.init_task_pages()
@@ -37,9 +48,9 @@ class MainController(QMainWindow):
         # Connect navigation buttons to change stacked widget pages
         self.ui.task_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.important_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
-        self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
-        self.ui.task_title_2.textChanged.connect(self.update_task_title)
-        self.ui.done_check_3.toggled.connect(self.update_completed)
+        self.ui.overdued_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
+        self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
+
 
 
     def init_task_pages(self):
@@ -66,9 +77,17 @@ class MainController(QMainWindow):
                                       bg_url="url(:/icon/img/note-background-3.png)",
                                       title="Overdued Tasks",
                                       show_completed=False,
-                                      overdued_only=True)
+                                      overdued_only=True,
+                                      allow_adding_task=False)
         self.ui.stackedWidget.addWidget(self.overdued_task)
-        self.overdued_task.add_task_button.clicked.connect(self.reload)
+
+        # Myday Tasks
+        self.myday_task = TaskPage(data_model=self.task_model,
+                                   bg_url="url(:/icon/img/important-bg-2.jpg)",
+                                   title="My Day",
+                                   myday=True)
+        self.ui.stackedWidget.addWidget(self.myday_task)
+        self.myday_task.add_task_button.clicked.connect(self.reload)
 
         # Load tasks into all pages
         self.load_all_tasks()
@@ -88,6 +107,11 @@ class MainController(QMainWindow):
         )
 
         self.overdued_task.reload_task(
+            task_clicked_callback=self.update_task_details,
+            task_updated_callback=[self.update_task_details, self.reload]
+        )
+
+        self.myday_task.reload_task(
             task_clicked_callback=self.update_task_details,
             task_updated_callback=[self.update_task_details, self.reload]
         )
@@ -131,6 +155,8 @@ class MainController(QMainWindow):
         """
         Update the task details section with the selected task's information.
         """
+        print(task_data)
+        # Update due date information
         if task_data.get('due_date'):
             # Convert due date string to QDate and block signals to prevent unintended updates
             date_pyqt = QDate.fromString(task_data['due_date'], "dd/MM/yyyy")
@@ -143,18 +169,35 @@ class MainController(QMainWindow):
             self.ui.due_date_input.setDate(QDate(1970, 1, 1))
             self.ui.due_date_input.blockSignals(False)
 
-        # Update other task details in the UI
+        # Save current_task_id for updating Task details
         self.current_task_id = task_data['id']
 
+        # Update Task Title (note: block signal to avoid calling the function update_task_title)
         self.ui.task_title_2.blockSignals(True)
         self.ui.task_title_2.setText(task_data['title'])
         self.ui.task_title_2.blockSignals(False)
 
-        self.ui.add_check.setChecked(task_data['important'])
+        # Update to show if Task is in My Day list
+        if (task_data['due_date'] == today_str or (task_data['is_myday'] == True and task_data['expired_date_myday'] == tomorrow_str)):
+            self.ui.myday_check.setChecked(True)
+            self.ui.myday_check.setText("Added to My Day")
+        else:
+            self.ui.myday_check.setChecked(False)
+            self.ui.myday_check.setText("Add to My Day")
+
+        # Update tto show if Task is marked as important
+        self.ui.important_check.setChecked(task_data['important'])
+
+        # Update to show if Task is completed
         self.ui.done_check_3.setChecked(task_data['completed'])
+
+        # Update to show Task Description
         self.ui.input_note.setText(task_data['description'])
+
+        # Update created date of the Task
         self.ui.created_date_label.setText(f"Created on {task_data['created_date']}")
 
+        # If the Task Details Side Bar is hidden -> show it
         if self.ui.task_details_frame.isHidden():
             self.ui.task_details_frame.show()
 
@@ -183,23 +226,42 @@ class MainController(QMainWindow):
         Update the due date for the currently selected task.
         """
         date_string = newdate.toString('dd/MM/yyyy')
+
         self.task_model.update_task(self.current_task_id, due_date=date_string)
+        # Update to show if Task is in My Day list
+        is_myday = self.task_model.get_a_task(self.current_task_id).get('is_myday')
+        if is_myday:
+            pass
+        elif ((not self.ui.myday_check.isChecked()) and (date_string == today_str)):
+            self.ui.myday_check.setChecked(True)
+            self.ui.myday_check.setText("Added to My Day")
+        elif (self.ui.myday_check.isChecked()) and (date_string != tomorrow_str):
+            self.ui.myday_check.setChecked(False)
+            self.ui.myday_check.setText("Add to My Day")
         self.reload()
 
     def update_important(self):
         """
         Update the importance status for the currently selected task.
         """
-        self.task_model.update_task(self.current_task_id, important=self.ui.add_check.isChecked())
+        self.task_model.update_task(self.current_task_id, important=self.ui.important_check.isChecked())
         self.reload()
 
     def update_task_title(self):
         self.task_model.update_task(self.current_task_id, title=self.ui.task_title_2.text())
         self.reload()
 
-
     def update_completed(self):
         self.task_model.update_task(self.current_task_id, completed=self.ui.done_check_3.isChecked())
+        self.reload()
+
+    def update_myday(self):
+        if self.ui.myday_check.isChecked():
+            self.task_model.update_task(self.current_task_id, expired_date_myday=tomorrow_str)
+            self.ui.myday_check.setText("Added to My Day")
+        else:
+            self.ui.myday_check.setText("Add to My Day")
+        self.task_model.update_task(self.current_task_id, is_myday=self.ui.myday_check.isChecked())
         self.reload()
 
     def close_page(self):

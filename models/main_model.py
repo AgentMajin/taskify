@@ -1,8 +1,9 @@
 import sqlite3
 from typing import List, Dict
-from datetime import datetime
+from datetime import date, datetime, timedelta
 
 today = str(datetime.today().date().strftime('%d/%m/%Y'))
+tomorrow = (date.today() + timedelta(days=1)).strftime('%d/%m/%Y')
 
 class TaskModel:
     def __init__(self, db_path: str = "todo_app.db"):
@@ -21,12 +22,12 @@ class TaskModel:
         """
         cursor = self.connection.cursor()
         cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,
-        description TEXT, completed BOOLEAN DEFAULT 0, important BOOLEAN DEFAULT 0, due_date TEXT, created_date TEXT)
+        description TEXT, completed BOOLEAN DEFAULT 0, important BOOLEAN DEFAULT 0, due_date TEXT, created_date TEXT, is_myday BOOLEAN DEFAULT 0, expired_date_myday TEXT DEFAULT '01/01/1970')
         """)
         self.connection.commit()
 
-    def add_task(self, title: str, description: str = "", due_date: str = '1/1/1970', created_date: str = today,
-                 important: bool = False) -> int:
+    def add_task(self, title: str, description: str = "", due_date: str = '01/01/1970', created_date: str = today,
+                 important: bool = False, is_myday: bool = False, expired_date_myday: str = tomorrow) -> int:
         """
         Add a new task to the database.
 
@@ -37,9 +38,9 @@ class TaskModel:
         """
         cursor = self.connection.cursor()
         cursor.execute("""
-        INSERT INTO tasks (title, description, completed, important, due_date, created_date)
-        VALUES (?, ?, 0, ?, ?, ?)
-        """, (title, description,important, due_date, created_date))
+        INSERT INTO tasks (title, description, completed, important, due_date, created_date, is_myday, expired_date_myday)
+        VALUES (?, ?, 0, ?, ?, ?, ?, ?)
+        """, (title, description,important, due_date, created_date, is_myday, expired_date_myday))
         self.connection.commit()
         return cursor.lastrowid
 
@@ -54,7 +55,7 @@ class TaskModel:
         rows = cursor.fetchall()
         tasks = [
             {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]), "important": bool(row[4]),
-             "due_date": row[5], "created_date": row[6]}
+             "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
             for row in rows
         ]
         return tasks
@@ -75,11 +76,74 @@ class TaskModel:
             "important": bool(row[4]),
             "due_date": row[5],
             "created_date": row[6],
+            "is_myday": bool(row[7]),
+            "expired_date_myday": row[8]
         }
         return task
 
+    def get_task_condition(self, title: str = None, description: str = None, completed: bool = None,
+                           important: bool = None, due_date: str = None, created_date: str = None, is_myday: bool =
+                           None, expired_date_myday: str = None, conditions_join_type: str = "AND") -> List[Dict]:
+        """
+        Queryr an existing task in the database.
+        :param title: New title for the task (optional).
+        :param description: New description for the task (optional).
+        :param completed: New completion status for the task (optional).
+        :param due_date: New due date for the task (optional).
+        :param created_date: New created date for the task (optional).
+        :param important: New important status for the task (optional).
+        :param is_myday: New is_myday status for the task (optional).
+        :param expired_date_myday: New expired date for the task (optional).
+
+        :return: List of tasks, each represented as a dictionary.
+        """
+        conditions = []
+        params = []
+
+        if title is not None:
+            conditions.append("title = ?")
+            params.append(title)
+        if description is not None:
+            conditions.append("description = ?")
+            params.append(description)
+        if completed is not None:
+            conditions.append("completed = ?")
+            params.append(int(completed))  # SQLite uses 0/1 for BOOLEAN
+        if due_date is not None:
+            conditions.append("due_date = ?")
+            params.append(due_date)
+        if created_date is not None:
+            conditions.append("created_date = ?")
+            params.append(created_date)
+        if important is not None:
+            conditions.append("important = ?")
+            params.append(important)
+        if is_myday is not None:
+            conditions.append("is_myday = ?")
+            params.append(is_myday)
+        if expired_date_myday is not None:
+            conditions.append("expired_date_myday = ?")
+            params.append(expired_date_myday)
+
+        if conditions:
+            cursor = self.connection.cursor()
+            conditions_join_type = f" {conditions_join_type} "
+            query = f"SELECT * FROM tasks WHERE {conditions_join_type.join(conditions)}"
+            cursor.execute(query, params)
+            rows = cursor.fetchall()
+            if rows is None:
+                return None
+            tasks = [
+                {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]),
+                 "important": bool(row[4]),
+                 "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
+                for row in rows
+            ]
+            return tasks
+        return None
+
     def update_task(self, task_id: int, title: str = None, description: str = None, completed: bool = None, important: bool = None,
-                    due_date: str = None, created_date: str = None):
+                    due_date: str = None, created_date: str = None, is_myday: bool = None, expired_date_myday: str = None):
         """
         Update an existing task in the database.
 
@@ -109,6 +173,12 @@ class TaskModel:
         if important is not None:
             updates.append("important = ?")
             params.append(important)
+        if is_myday is not None:
+            updates.append("is_myday = ?")
+            params.append(is_myday)
+        if expired_date_myday is not None:
+            updates.append("expired_date_myday = ?")
+            params.append(expired_date_myday)
 
         if updates:
             cursor = self.connection.cursor()
@@ -134,25 +204,60 @@ class TaskModel:
         self.connection.close()
 
 
+    #draft method
+    def add_column_if_not_exists(self, table_name, column_name, column_type):
+        """
+        Add a column to a SQLite table if it does not already exist.
+
+        :param connection: SQLite database connection object.
+        :param table_name: Name of the table to alter.
+        :param column_name: Name of the column to add.
+        :param column_type: Data type of the column (e.g., TEXT, INTEGER).
+        """
+        cursor = self.connection.cursor()
+
+        # Check if the column exists
+        cursor.execute(f"PRAGMA table_info({table_name})")
+        columns = [row[1] for row in cursor.fetchall()]  # Column names are in the second position
+
+        if column_name not in columns:
+            # Add the column since it does not exist
+            cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}")
+            print(f"Column '{column_name}' added to table '{table_name}'.")
+
+        self.connection.commit()
+
 if __name__ == "__main__":
-    # Sample usage
+    # Initialize the TaskModel
     model = TaskModel()
 
-    # Add a task
-    task_id = model.add_task("Buy groceries", "Milk, Bread, Eggs", "2024-01-10")
-    print(f"Task added with ID: {task_id}")
+    # Add sample tasks
+    model.add_task("Buy groceries", "Milk, Bread, Eggs", "10/01/2024")
+    model.add_task("Submit report", "Complete Q4 report", "15/01/2024", important=True)
+    model.add_task("Clean the house", "Living room, Kitchen", "12/01/2024")
+    model.add_task("Workout", "Morning gym session", "11/01/2024", is_myday=True)
 
-    # Get all tasks
-    tasks = model.get_all_tasks()
-    print("All Tasks:", tasks)
+    print("Initial Tasks:")
+    print(model.get_all_tasks())
 
-    # Update a task
-    model.update_task(task_id, completed=True)
-    print("Updated Task:", model.get_all_tasks())
+    # Test get_task_condition for various scenarios
+    print("\nTasks with title 'Buy groceries':")
+    print(model.get_task_condition(title="Buy groceries"))
 
-    # Delete a task
-    model.delete_task(task_id)
-    print("Remaining Tasks:", model.get_all_tasks())
+    print("\nImportant tasks:")
+    print(model.get_task_condition(important=True))
+
+    print("\nCompleted tasks:")
+    print(model.get_task_condition(completed=True))
+
+    print("\nTasks with due date '15/01/2024':")
+    print(model.get_task_condition(due_date="15/01/2024"))
+
+    print("\nTasks for 'My Day' and incompleted:")
+    print(model.get_task_condition(is_myday=True, completed=False))
+
+    print("\nTasks with description 'Living room, Kitchen':")
+    print(model.get_task_condition(description="Living room, Kitchen"))
 
     # Close the connection
     model.close_connection()

@@ -1,16 +1,21 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QMessageBox, QScrollArea
 from task_frame import TaskFrame
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 
+today = date.today()
+# today = (date.today() + timedelta(days=1))
+today_str = today.strftime("%d/%m/%Y")
+tomorrow_str = (today + timedelta(days=1)).strftime('%d/%m/%Y')
 
 class TaskPage(QWidget):
     def __init__(self, data_model, bg_url: str,
                  title: str,
-                 important_only=False,
-                 overdued_only=False,
-                 show_completed=True,
-                 allow_adding_task=True):
+                 important_only: bool = False,
+                 overdued_only: bool = False,
+                 show_completed: bool = True,
+                 allow_adding_task: bool = True,
+                 myday: bool = False):
         self.data_model = data_model
         self.bg_url = bg_url
         self.title = title
@@ -18,6 +23,7 @@ class TaskPage(QWidget):
         self.allow_adding_task = allow_adding_task
         self.overdued_only = overdued_only
         self.important_only = important_only
+        self.myday = myday
         self.task_clicked_callback = None
         self.task_updated_callback = None
 
@@ -28,7 +34,7 @@ class TaskPage(QWidget):
         if allow_adding_task:
             self.add_task_button.clicked.connect(self.add_task)
         if show_completed:
-            self.show_completed_4.clicked.connect(self.hide_completed)
+            self.show_completed_4.clicked.connect(self.show_hide_completed)
         else:
             self.show_completed_4.hide()
     def setup_ui(self):
@@ -202,7 +208,7 @@ class TaskPage(QWidget):
             self.task_input_4.setObjectName("task_input_4")
             self.horizontalLayout_63.addWidget(self.task_input_4)
             self.verticalLayout_31.addWidget(self.add_task_frame_8)
-        self.verticalLayout_26.addWidget(self.add_task_frame_7, 0, QtCore.Qt.AlignBottom)
+            self.verticalLayout_26.addWidget(self.add_task_frame_7, 0, QtCore.Qt.AlignBottom)
         self.verticalLayout_page.addWidget(self.Task)
         # self.scroll_area.setWidget(self.Task)
         self.main_layout.addWidget(self.Task)
@@ -218,28 +224,38 @@ class TaskPage(QWidget):
         # Add the task to the database
         if self.important_only:
             self.data_model.add_task(task_title, important=True)
+        elif self.myday:
+            self.data_model.add_task(task_title, is_myday=True, expired_date_myday=tomorrow_str)
         else:
             self.data_model.add_task(task_title)
 
         # Clear the input field
         self.task_input_4.clear()
 
-    def filter_task(self, tasks):
-        today = date.today()
-        filtered_tasks = tasks
+    def filter_task(self):
+
+
+        filtered_tasks = self.data_model.get_all_tasks()
 
         # Filter important tasks
         if self.important_only:
-            filtered_tasks = [task for task in filtered_tasks if task.get("important", False)]
-
+            # filtered_tasks = [task for task in tasks if task.get("important", False)]
+            filtered_tasks = self.data_model.get_task_condition(important=True)
         # Filter overdue tasks
         if self.overdued_only:
             filtered_tasks = []
-            for task in tasks:
+            incompleted_task = self.data_model.get_task_condition(completed=False)
+            for task in incompleted_task:
                 due_date_str = task.get('due_date') or '01/01/1970'  # Use default if due_date is None or empty
                 due_date = datetime.strptime(due_date_str, "%d/%m/%Y").date()
-                if not task.get('completed', False) and due_date < today:
+                if due_date < today:
                     filtered_tasks.append(task)
+
+        # Filter myday Tasks
+        if self.myday:
+            myday_tasks = self.data_model.get_task_condition(is_myday=True, expired_date_myday=tomorrow_str)
+            due_today = self.data_model.get_task_condition(due_date=today_str, is_myday=False)
+            filtered_tasks = myday_tasks + due_today
 
         return filtered_tasks
 
@@ -248,21 +264,30 @@ class TaskPage(QWidget):
         """
         Reload tasks into the given layout.
         """
+        # Save callback function for buttons to assign when loading task again in hide_completed method
         if task_clicked_callback:
             self.task_clicked_callback = task_clicked_callback
         if task_updated_callback:
             self.task_updated_callback = task_updated_callback
+
+        # Determine which layout to load task into: to do layout only or both to do layout and done task layout
         layouts = [self.verticalLayout_task_to_do]
         if self.show_completed:
             layouts = [self.verticalLayout_task_to_do, self.verticalLayout_done_task]
+
+        # Clear tasks from layouts
         for layout in layouts:
             while layout.count():
                 item = layout.takeAt(0)
                 widget = item.widget()
                 if widget:
                     widget.deleteLater()
-        tasks = self.data_model.get_all_tasks()
-        tasks = self.filter_task(tasks)
+
+        # Filter which tasks to show using class arguments
+        # tasks = self.data_model.get_all_tasks()
+        tasks = self.filter_task()
+
+        # Load tasks into layouts and assign callback function
         for task in tasks:
             if task["completed"] == True and self.show_completed == True:
                 layout = self.verticalLayout_done_task
@@ -276,7 +301,10 @@ class TaskPage(QWidget):
             for callback in task_updated_callback:
                 task_frame.task_updated.connect(callback)
 
-    def hide_completed(self):
+        # Change text of show/hide button to Hide Completed (since after reload, done task layout automatically show)
+        self.show_completed_4.setText("Hide Completed")
+
+    def show_hide_completed(self):
         if self.show_completed_4.text() == "Hide Completed":
             while self.verticalLayout_done_task.count():
                 item = self.verticalLayout_done_task.takeAt(0)

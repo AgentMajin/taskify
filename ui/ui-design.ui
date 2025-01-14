@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1128</width>
-    <height>678</height>
+    <width>1233</width>
+    <height>786</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -828,6 +828,9 @@ text-color: rgb(0,0,0);
                       </property>
                       <property name="text">
                        <string>Tasks</string>
+                      </property>
+                      <property name="scaledContents">
+                       <bool>false</bool>
                       </property>
                      </widget>
                     </item>
@@ -3532,7 +3535,7 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/check_fill.png); height:
              <item>
               <widget class="QLabel" name="task_title_2">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -3546,7 +3549,10 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/check_fill.png); height:
                 </font>
                </property>
                <property name="text">
-                <string>Task Title</string>
+                <string>Task Title Task Title Task Title Task Title</string>
+               </property>
+               <property name="wordWrap">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
