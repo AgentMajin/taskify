@@ -25,7 +25,8 @@ class TaskModel:
         """)
         self.connection.commit()
 
-    def add_task(self, title: str, description: str = "", due_date: str = None, created_date: str = today) -> int:
+    def add_task(self, title: str, description: str = "", due_date: str = '1/1/1970', created_date: str = today,
+                 important: bool = False) -> int:
         """
         Add a new task to the database.
 
@@ -37,8 +38,8 @@ class TaskModel:
         cursor = self.connection.cursor()
         cursor.execute("""
         INSERT INTO tasks (title, description, completed, important, due_date, created_date)
-        VALUES (?, ?, 0, 0, ?, ?)
-        """, (title, description, due_date, created_date))
+        VALUES (?, ?, 0, ?, ?, ?)
+        """, (title, description,important, due_date, created_date))
         self.connection.commit()
         return cursor.lastrowid
 

@@ -40,11 +40,7 @@ class TaskPage(QWidget):
         self.main_layout.setContentsMargins(0, 0, 0, 0)
         self.main_layout.setSpacing(0)
 
-        # Scroll Area
-        self.scroll_area = QScrollArea(self)
-        self.scroll_area.setWidgetResizable(True)
-        self.scroll_area.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.scroll_area.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+
 
         self.setObjectName("Task Page")
         self.verticalLayout_page = QtWidgets.QVBoxLayout(self)
@@ -67,6 +63,38 @@ class TaskPage(QWidget):
         self.verticalLayout_26.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_26.setSpacing(0)
         self.verticalLayout_26.setObjectName("verticalLayout_26")
+
+        self.task_title_frame_5 = QtWidgets.QFrame(self.Task)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.task_title_frame_5.sizePolicy().hasHeightForWidth())
+        self.task_title_frame_5.setSizePolicy(sizePolicy)
+        self.task_title_frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.task_title_frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.task_title_frame_5.setObjectName("task_title_frame_5")
+        self.verticalLayout_28 = QtWidgets.QVBoxLayout(self.task_title_frame_5)
+        self.verticalLayout_28.setObjectName("verticalLayout_28")
+        self.verticalLayout_28.setContentsMargins(20,20,0,0)
+        self.task_title_5 = QtWidgets.QLabel(self.task_title_frame_5)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft JhengHei")
+        font.setPointSize(20)
+        font.setBold(True)
+        font.setWeight(75)
+        self.task_title_5.setFont(font)
+        self.task_title_5.setStyleSheet("color: white")
+        self.task_title_5.setObjectName("task_title_5")
+        self.verticalLayout_28.addWidget(self.task_title_5)
+        self.verticalLayout_26.addWidget(self.task_title_frame_5)
+
+        # Scroll Area
+        self.scroll_area = QScrollArea(self)
+        self.scroll_area.setWidgetResizable(True)
+        self.scroll_area.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.scroll_area.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOff)
+        self.scroll_area.setStyleSheet("background:transparent")
+
         self.content_frame_4 = QtWidgets.QFrame(self.Task)
         self.content_frame_4.setStyleSheet("")
         self.content_frame_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -83,28 +111,6 @@ class TaskPage(QWidget):
         self.verticalLayout_27.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_27.setSpacing(0)
         self.verticalLayout_27.setObjectName("verticalLayout_27")
-        self.task_title_frame_5 = QtWidgets.QFrame(self.task_view_4)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.task_title_frame_5.sizePolicy().hasHeightForWidth())
-        self.task_title_frame_5.setSizePolicy(sizePolicy)
-        self.task_title_frame_5.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.task_title_frame_5.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.task_title_frame_5.setObjectName("task_title_frame_5")
-        self.verticalLayout_28 = QtWidgets.QVBoxLayout(self.task_title_frame_5)
-        self.verticalLayout_28.setObjectName("verticalLayout_28")
-        self.task_title_5 = QtWidgets.QLabel(self.task_title_frame_5)
-        font = QtGui.QFont()
-        font.setFamily("Microsoft JhengHei")
-        font.setPointSize(20)
-        font.setBold(True)
-        font.setWeight(75)
-        self.task_title_5.setFont(font)
-        self.task_title_5.setStyleSheet("color: white")
-        self.task_title_5.setObjectName("task_title_5")
-        self.verticalLayout_28.addWidget(self.task_title_5)
-        self.verticalLayout_27.addWidget(self.task_title_frame_5)
         self.task_to_do_4 = QtWidgets.QFrame(self.task_view_4)
         self.task_to_do_4.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.task_to_do_4.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -124,11 +130,9 @@ class TaskPage(QWidget):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.show_completed_4.setFont(font)
-        self.show_completed_4.setStyleSheet("QButton {\n"
-                                            "     /* Solid black border */\n"
-                                            "    border-radius: 5px;      /* Rounded corners */\n"
-                                            "    background-color: rgb(243,243,243);\n"
-                                            "}")
+        self.show_completed_4.setStyleSheet("border-radius: 5px;      /* Rounded corners */\n"
+                                            "    background-color: rgb(237,204,204);"
+                                            "padding: 8px")
         icon7 = QtGui.QIcon()
         icon7.addPixmap(QtGui.QPixmap(":/icon/keyboard-down.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.show_completed_4.setIcon(icon7)
@@ -145,7 +149,9 @@ class TaskPage(QWidget):
             self.verticalLayout_done_task.setObjectName("verticalLayout_done_task")
         self.verticalLayout_27.addWidget(self.task_completed_4, 0, QtCore.Qt.AlignTop)
         self.horizontalLayout_52.addWidget(self.task_view_4, 0, QtCore.Qt.AlignTop)
-        self.verticalLayout_26.addWidget(self.content_frame_4)
+
+        self.scroll_area.setWidget(self.content_frame_4)
+        self.verticalLayout_26.addWidget(self.scroll_area)
         if self.allow_adding_task:
             self.add_task_frame_7 = QtWidgets.QFrame(self.Task)
             self.add_task_frame_7.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -198,8 +204,8 @@ class TaskPage(QWidget):
             self.verticalLayout_31.addWidget(self.add_task_frame_8)
         self.verticalLayout_26.addWidget(self.add_task_frame_7, 0, QtCore.Qt.AlignBottom)
         self.verticalLayout_page.addWidget(self.Task)
-        self.scroll_area.setWidget(self.Task)
-        self.main_layout.addWidget(self.scroll_area)
+        # self.scroll_area.setWidget(self.Task)
+        self.main_layout.addWidget(self.Task)
         self.show_completed_4.setText( "Hide Completed")
         self.task_title_5.setText(f"{self.title}")
 
@@ -210,7 +216,10 @@ class TaskPage(QWidget):
             return
 
         # Add the task to the database
-        self.data_model.add_task(task_title)
+        if self.important_only:
+            self.data_model.add_task(task_title, important=True)
+        else:
+            self.data_model.add_task(task_title)
 
         # Clear the input field
         self.task_input_4.clear()

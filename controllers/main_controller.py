@@ -2,7 +2,7 @@ import sys
 import os
 from datetime import date, datetime
 from PyQt5.QtCore import QObject, Qt, pyqtSignal, QDate
-from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame
+from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame, QStyleFactory
 
 # Add paths for importing custom modules
 sys.path.append(os.path.join(os.path.dirname(__file__), 'models'))
@@ -25,11 +25,11 @@ class MainController(QMainWindow):
         self.task_model = TaskModel()
 
         # Connect UI buttons to their respective methods
-        self.ui.add_task_button.clicked.connect(self.add_task)  # Handle adding a task
         self.ui.delete_task_button.clicked.connect(self.delete_task)  # Handle deleting a task
         self.ui.input_note.editingFinished.connect(self.add_note)  # Handle saving a note
         self.ui.due_date_input.dateChanged.connect(self.update_duedate)  # Handle due date updates
         self.ui.add_check.toggled.connect(self.update_important)  # Handle toggling importance
+        self.ui.close_button.clicked.connect(self.close_page)
 
         # Initialize and add task pages
         self.init_task_pages()
@@ -38,6 +38,9 @@ class MainController(QMainWindow):
         self.ui.task_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(1))
         self.ui.important_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(2))
         self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
+        self.ui.task_title_2.textChanged.connect(self.update_task_title)
+        self.ui.done_check_3.toggled.connect(self.update_completed)
+
 
     def init_task_pages(self):
         """
@@ -113,6 +116,7 @@ class MainController(QMainWindow):
         # Reload the task list
         self.load_all_tasks()
 
+
     def clear_layout(self, layout):
         """
         Remove all widgets from a given layout.
@@ -141,11 +145,18 @@ class MainController(QMainWindow):
 
         # Update other task details in the UI
         self.current_task_id = task_data['id']
+
+        self.ui.task_title_2.blockSignals(True)
         self.ui.task_title_2.setText(task_data['title'])
+        self.ui.task_title_2.blockSignals(False)
+
         self.ui.add_check.setChecked(task_data['important'])
         self.ui.done_check_3.setChecked(task_data['completed'])
         self.ui.input_note.setText(task_data['description'])
         self.ui.created_date_label.setText(f"Created on {task_data['created_date']}")
+
+        if self.ui.task_details_frame.isHidden():
+            self.ui.task_details_frame.show()
 
     def delete_task(self):
         """
@@ -182,9 +193,26 @@ class MainController(QMainWindow):
         self.task_model.update_task(self.current_task_id, important=self.ui.add_check.isChecked())
         self.reload()
 
+    def update_task_title(self):
+        self.task_model.update_task(self.current_task_id, title=self.ui.task_title_2.text())
+        self.reload()
+
+
+    def update_completed(self):
+        self.task_model.update_task(self.current_task_id, completed=self.ui.done_check_3.isChecked())
+        self.reload()
+
+    def close_page(self):
+        if self.ui.task_details_frame.isHidden():
+            self.ui.task_details_frame.show()
+        else:
+            self.ui.task_details_frame.hide()
 
 if __name__ == "__main__":
+    QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
+    QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # Optional: Improve pixmap scaling
+
     app = QApplication(sys.argv)
     main_window = MainController()
-    main_window.show()
+    main_window.showMaximized()
     sys.exit(app.exec_())

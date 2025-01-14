@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1553</width>
-    <height>1008</height>
+    <width>1128</width>
+    <height>678</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -222,7 +222,7 @@ padding: 0px;</string>
             </layout>
            </widget>
           </item>
-          <item alignment="Qt::AlignLeft">
+          <item>
            <widget class="QFrame" name="search_frame_2">
             <property name="enabled">
              <bool>true</bool>
@@ -263,54 +263,16 @@ margin-top:0px;</string>
               <number>9</number>
              </property>
              <item>
-              <widget class="QLineEdit" name="search_input">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>200</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background-color:none;
-margin:0px;
-padding: 0px;</string>
-               </property>
-               <property name="placeholderText">
-                <string>Search</string>
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="text">
+                <string>Logout</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="search_button">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>25</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">background: none;
-margin: 0px;
-padding: 0px;</string>
-               </property>
+              <widget class="QPushButton" name="pushButton_2">
                <property name="text">
-                <string/>
-               </property>
-               <property name="icon">
-                <iconset resource="../resources/icon.qrc">
-                 <normaloff>:/icon/icons/search_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.png</normaloff>:/icon/icons/search_24dp_5F6368_FILL0_wght400_GRAD0_opsz24.png</iconset>
+                <string>Change Password</string>
                </property>
               </widget>
              </item>
@@ -1518,11 +1480,24 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill.png); height: 
                 </layout>
                </widget>
               </item>
+              <item>
+               <widget class="QScrollBar" name="verticalScrollBar">
+                <property name="orientation">
+                 <enum>Qt::Vertical</enum>
+                </property>
+               </widget>
+              </item>
              </layout>
             </widget>
            </item>
            <item alignment="Qt::AlignBottom">
             <widget class="QFrame" name="add_task_frame_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
              </property>
