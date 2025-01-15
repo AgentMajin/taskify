@@ -7,6 +7,8 @@ Otherwise, it will show "Login Failed! Check your username and password" in the 
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os
 import sys
+from context import database as db
+from context import localStorage
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ui import login_ui
@@ -33,7 +35,11 @@ class LoginController(QMainWindow):
             self.ui.lineEdit_2.clear()
 
     def validate_cred(self, username, password):
-        if username == "admin" and password == "admin":
+        connection = db.connect_db()
+        cursor = connection.execute('SELECT * FROM Users u WHERE u.UserName = ? AND u.Password = ?', (username, password))
+        result = cursor.fetchall()
+        if(len(result) == 1):
+            localStorage.userID = result[0][0]
             return True
         return False
 
@@ -44,7 +50,7 @@ class LoginController(QMainWindow):
         self.close()
         
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
+    localStorage = QApplication(sys.argv)
     login = LoginController()
     login.show()
-    sys.exit(app.exec_())
+    sys.exit(localStorage.exec_())
