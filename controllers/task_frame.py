@@ -13,22 +13,31 @@ class TaskFrame(QtWidgets.QFrame):
     task_updated = pyqtSignal(dict)  # Signal emitted when the task is updated
     task_clicked = pyqtSignal(dict)  # Signal emitted when the task is clicked
 
-    def __init__(self, task_id, task_model, completed=False, parent=None):
+    def __init__(self, task_id, task_model, completed=False, parent=None, is_highlight=False):
         super().__init__(parent)
         self.task_id = task_id
         self.task_model = task_model
         self.task_data = self.task_model.get_a_task(self.task_id)  # Fetch task data
         self.completed = completed  # Flag to differentiate between active and completed tasks
+        self.is_highlight = is_highlight
 
         # Initialize frame styling
         self.setSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         self.setMinimumHeight(60)
-        self.setStyleSheet("""
-            QFrame {
-                border-radius: 5px;
-                background-color: white;
-            }
-        """)
+        if is_highlight:
+            self.setStyleSheet("""
+                QFrame {
+                    border-radius: 5px;
+                    background-color: rgb(243,243,243);
+                }
+            """)
+        else:
+            self.setStyleSheet("""
+                QFrame {
+                    border-radius: 5px;
+                    background-color: white;
+                }
+            """)
         self.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.setFrameShadow(QtWidgets.QFrame.Raised)
 
@@ -166,4 +175,6 @@ class TaskFrame(QtWidgets.QFrame):
         self.refresh_data()
         self.task_updated.emit(self.task_data)
 
+    def change_stylesheet(self, stylesheet):
+        self.setStyleSheet(stylesheet)
 

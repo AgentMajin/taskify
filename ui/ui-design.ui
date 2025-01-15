@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1001</width>
-    <height>537</height>
+    <height>580</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -228,10 +228,16 @@ padding: 0px;</string>
              <bool>true</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>100</height>
+             </size>
             </property>
             <property name="styleSheet">
              <string notr="true">padding-top: 0px;
@@ -243,7 +249,7 @@ margin-top:0px;</string>
             <property name="frameShadow">
              <enum>QFrame::Raised</enum>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <layout class="QVBoxLayout" name="verticalLayout_11">
              <property name="spacing">
               <number>0</number>
              </property>
@@ -263,16 +269,16 @@ margin-top:0px;</string>
               <number>9</number>
              </property>
              <item>
-              <widget class="QPushButton" name="pushButton_3">
+              <widget class="QPushButton" name="pushButton_2">
                <property name="text">
-                <string>Logout</string>
+                <string>Change Password</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="pushButton_2">
+              <widget class="QPushButton" name="pushButton_3">
                <property name="text">
-                <string>Change Password</string>
+                <string>Logout</string>
                </property>
               </widget>
              </item>
@@ -347,9 +353,16 @@ margin-top:0px;</string>
              </property>
              <item>
               <widget class="QFrame" name="item_frame_1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="styleSheet">
                 <string notr="true">#item_frame_1::hover {
     background-color: rgba(255, 255, 255, 0.8); 
+	border: 1px
 }</string>
                </property>
                <property name="frameShape">
@@ -359,6 +372,21 @@ margin-top:0px;</string>
                 <enum>QFrame::Raised</enum>
                </property>
                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
                 <item>
                  <widget class="QPushButton" name="my_day_button">
                   <property name="sizePolicy">
@@ -374,8 +402,9 @@ margin-top:0px;</string>
                    </font>
                   </property>
                   <property name="styleSheet">
-                   <string notr="true">border: none;
+                   <string notr="true">border:solid ;
 text-color: rgb(0,0,0);
+padding: 8px
 </string>
                   </property>
                   <property name="text">

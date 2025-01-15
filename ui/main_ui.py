@@ -213,7 +213,7 @@ class Ui_MainWindow(object):
         self.overdued_button.setFont(font)
         self.overdued_button.setStyleSheet("border: none;\n"
                                            "text-color: rgb(0,0,0);\n"
-                                           "padding: 8px")
+                                           "padding: 10px")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap(":/icon/icons/plan.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.overdued_button.setIcon(icon3)
@@ -247,7 +247,7 @@ class Ui_MainWindow(object):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.important_button.setFont(font)
-        self.important_button.setStyleSheet("border: none; padding: 8px")
+        self.important_button.setStyleSheet("border: none; padding: 10px")
         icon4 = QtGui.QIcon()
         icon4.addPixmap(QtGui.QPixmap(":/icon/icons/star.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.important_button.setIcon(icon4)
@@ -279,7 +279,7 @@ class Ui_MainWindow(object):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.my_day_button.setFont(font)
-        self.my_day_button.setStyleSheet("border: none; padding: 8px")
+        self.my_day_button.setStyleSheet("border: none; padding: 10px")
         icon5 = QtGui.QIcon()
         icon5.addPixmap(QtGui.QPixmap(":/icon/icons/sun.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.my_day_button.setIcon(icon5)
@@ -312,7 +312,7 @@ class Ui_MainWindow(object):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.assign_me_button.setFont(font)
-        self.assign_me_button.setStyleSheet("border: none; padding:8px")
+        self.assign_me_button.setStyleSheet("border: none; padding:10px")
         self.assign_me_button.setIcon(icon1)
         self.assign_me_button.setIconSize(QtCore.QSize(25, 25))
         self.assign_me_button.setObjectName("assign_me_button")
@@ -343,7 +343,7 @@ class Ui_MainWindow(object):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.task_button.setFont(font)
-        self.task_button.setStyleSheet("border: none; padding:8px")
+        self.task_button.setStyleSheet("border: none; padding:10px")
         icon6 = QtGui.QIcon()
         icon6.addPixmap(QtGui.QPixmap(":/icon/icons/home.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.task_button.setIcon(icon6)
@@ -480,7 +480,7 @@ class Ui_MainWindow(object):
         self.close_button.setStyleSheet("border:none;")
         self.close_button.setText("")
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(":/icon/icons/refresh.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(":/icon/icons/close.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.close_button.setIcon(icon10)
         self.close_button.setIconSize(QtCore.QSize(20, 20))
         self.close_button.setObjectName("close_button")
@@ -563,9 +563,9 @@ class Ui_MainWindow(object):
         self.add_to_myday_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.add_to_myday_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.add_to_myday_frame.setObjectName("add_to_my_day_frame")
-        self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.add_to_myday_frame)
-        self.horizontalLayout_6.setContentsMargins(-1, 12, -1, 12)
-        self.horizontalLayout_6.setObjectName("horizontalLayout_6")
+        self.horizontalLayout_21 = QtWidgets.QHBoxLayout(self.add_to_myday_frame)
+        self.horizontalLayout_21.setContentsMargins(-1, 12, -1, 12)
+        self.horizontalLayout_21.setObjectName("horizontalLayout_21")
 
         self.myday_check = QtWidgets.QCheckBox(self.add_to_myday_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
@@ -586,12 +586,12 @@ class Ui_MainWindow(object):
                 "\n"
                 "QCheckBox {color: #5f6368}")
         self.myday_check.setObjectName("add_check")
-        self.horizontalLayout_6.addWidget(self.myday_check, 0, QtCore.Qt.AlignLeft)
+        self.horizontalLayout_21.addWidget(self.myday_check, 0, QtCore.Qt.AlignLeft)
         self.frame = QtWidgets.QFrame(self.add_to_myday_frame)
         self.frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame.setObjectName("frame")
-        self.horizontalLayout_6.addWidget(self.frame)
+        self.horizontalLayout_21.addWidget(self.frame)
         self.verticalLayout_9.addWidget(self.add_to_myday_frame)
 
 
@@ -606,7 +606,7 @@ class Ui_MainWindow(object):
 " border-radius: 5px;      /* Rounded corners */\n"
 "}\n"
 "\n"
-"#add_to_my_day_frame::hover {\n"
+"#add_to_important_frame::hover {\n"
 "    background-color: rgba(243, 243, 243, 0.8); \n"
 "}\n"
 "")
@@ -632,7 +632,7 @@ class Ui_MainWindow(object):
         self.important_check.setStyleSheet("QCheckBox::indicator::unchecked { image: url(:/icon/icons/star.png); height: "
                                      "22px; width: 22px}\n"
 "\n"
-"QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill.png); height: 22px; width: 22px}\n"
+"QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill_yellow.png); height: 22px; width: 22px}\n"
 "\n"
 "QCheckBox {color: #5f6368}")
         self.important_check.setObjectName("add_check")
@@ -838,7 +838,7 @@ class Ui_MainWindow(object):
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc
+import icon_rc_2
 
 
 if __name__ == "__main__":

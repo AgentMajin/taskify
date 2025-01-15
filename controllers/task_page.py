@@ -15,7 +15,7 @@ class TaskPage(QWidget):
                  overdued_only: bool = False,
                  show_completed: bool = True,
                  allow_adding_task: bool = True,
-                 myday: bool = False):
+                 myday: bool = False,):
         self.data_model = data_model
         self.bg_url = bg_url
         self.title = title
@@ -233,8 +233,6 @@ class TaskPage(QWidget):
         self.task_input_4.clear()
 
     def filter_task(self):
-
-
         filtered_tasks = self.data_model.get_all_tasks()
 
         # Filter important tasks
@@ -259,8 +257,17 @@ class TaskPage(QWidget):
 
         return filtered_tasks
 
+    def filter_search_keyword(self, search_keyword, tasks):
+        if search_keyword is not None:
+            search_keyword = search_keyword.lower()
+            filtered_tasks = [task for task in tasks if (search_keyword in task.get('title').lower())]
+            return filtered_tasks
+        return tasks
 
-    def reload_task(self, task_clicked_callback, task_updated_callback):
+    def reload_task(self, task_clicked_callback: list,
+                    task_updated_callback: list,
+                    detail_task_id=None,
+                    search_keyword=None):
         """
         Reload tasks into the given layout.
         """
@@ -269,6 +276,10 @@ class TaskPage(QWidget):
             self.task_clicked_callback = task_clicked_callback
         if task_updated_callback:
             self.task_updated_callback = task_updated_callback
+        if detail_task_id:
+            self.detail_task_id = detail_task_id
+        if search_keyword:
+            self.search_keyword = search_keyword
 
         # Determine which layout to load task into: to do layout only or both to do layout and done task layout
         layouts = [self.verticalLayout_task_to_do]
@@ -286,20 +297,27 @@ class TaskPage(QWidget):
         # Filter which tasks to show using class arguments
         # tasks = self.data_model.get_all_tasks()
         tasks = self.filter_task()
+        if tasks:
+            tasks = self.filter_search_keyword(search_keyword, tasks)
 
         # Load tasks into layouts and assign callback function
         for task in tasks:
             if task["completed"] == True and self.show_completed == True:
                 layout = self.verticalLayout_done_task
-            elif task["completed"] == False:
+            elif not task["completed"]:
                 layout = self.verticalLayout_task_to_do
             else:
                 continue
-            task_frame = TaskFrame(task["id"], self.data_model, completed=task["completed"])
+            if detail_task_id is None or detail_task_id != task['id']:
+                task_frame = TaskFrame(task["id"], self.data_model, completed=task["completed"])
+            else:
+                task_frame = TaskFrame(task["id"], self.data_model, completed=task["completed"], is_highlight=True)
             layout.addWidget(task_frame)
-            task_frame.task_clicked.connect(task_clicked_callback)
-            for callback in task_updated_callback:
-                task_frame.task_updated.connect(callback)
+
+            for callback in task_clicked_callback:
+                task_frame.task_clicked.connect(callback)
+            for callbacks in task_updated_callback:
+                task_frame.task_updated.connect(callbacks)
 
         # Change text of show/hide button to Hide Completed (since after reload, done task layout automatically show)
         self.show_completed_4.setText("Hide Completed")
@@ -313,7 +331,10 @@ class TaskPage(QWidget):
                     widget.deleteLater()
             self.show_completed_4.setText("Show Completed")
         else:
-            self.reload_task(self.task_clicked_callback, self.task_updated_callback)
+            self.reload_task(self.task_clicked_callback,
+                             self.task_updated_callback,
+                             self.detail_task_id,
+                             self.search_keyword)
             self.show_completed_4.setText("Hide Completed")
 if __name__ == "__main__":
     import sys
