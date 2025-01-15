@@ -838,7 +838,7 @@ class Ui_MainWindow(object):
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_2
+import icon_rc_3
 
 
 if __name__ == "__main__":

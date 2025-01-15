@@ -5,7 +5,7 @@ from PyQt5 import QtGui
 
 # Import icon file
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_2
+import icon_rc_3
 
 # Show App icon on Taskbar (Windows only)
 import ctypes
