@@ -474,7 +474,7 @@ class Ui_MainWindow(object):
         self.import_tant_check_4.setAutoFillBackground(False)
         self.import_tant_check_4.setStyleSheet("QCheckBox::indicator::unchecked { image: url(:/icon/icons/star.png); height: 25px; width: 25px}\n"
 "\n"
-"QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill.png); height: 25px; width: 25px}")
+"QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill_yellow.png); height: 25px; width: 25px}")
         self.import_tant_check_4.setText("")
         self.import_tant_check_4.setIconSize(QtCore.QSize(16, 16))
         self.import_tant_check_4.setChecked(False)
