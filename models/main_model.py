@@ -1,30 +1,31 @@
-import sqlite3
 from typing import List, Dict
 from datetime import date, datetime, timedelta
+from context import database as db
+from context import localStorage
 
 today = str(datetime.today().date().strftime('%d/%m/%Y'))
 tomorrow = (date.today() + timedelta(days=1)).strftime('%d/%m/%Y')
 
 class TaskModel:
-    def __init__(self, db_path: str = "todo_app.db"):
-        """
-        Initialize the TaskModel and connect to the SQLite database.
+    # def __init__(self, db_path: str = "todo_app.db"):
+    #     """
+    #     Initialize the TaskModel and connect to the SQLite database.
 
-        :param db_path: Path to the SQLite database file.
-        """
-        self.db_path = db_path
-        self.connection = sqlite3.connect(self.db_path)
-        self._create_table()
+    #     :param db_path: Path to the SQLite database file.
+    #     """
+    #     self.db_path = db_path
+    #     self.connection = sqlite3.connect(self.db_path)
+    #     self._create_table()
 
-    def _create_table(self):
-        """
-        Create the tasks table if it doesn't exist.
-        """
-        cursor = self.connection.cursor()
-        cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,
-        description TEXT, completed BOOLEAN DEFAULT 0, important BOOLEAN DEFAULT 0, due_date TEXT, created_date TEXT, is_myday BOOLEAN DEFAULT 0, expired_date_myday TEXT DEFAULT '01/01/1970')
-        """)
-        self.connection.commit()
+    # def _create_table(self):
+    #     """
+    #     Create the tasks table if it doesn't exist.
+    #     """
+    #     cursor = self.connection.cursor()
+    #     cursor.execute("""CREATE TABLE IF NOT EXISTS tasks (id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,
+    #     description TEXT, completed BOOLEAN DEFAULT 0, important BOOLEAN DEFAULT 0, due_date TEXT, created_date TEXT, is_myday BOOLEAN DEFAULT 0, expired_date_myday TEXT DEFAULT '01/01/1970')
+    #     """)
+    #     self.connection.commit()
 
     def add_task(self, title: str, description: str = "", due_date: str = '01/01/1970', created_date: str = today,
                  important: bool = False, is_myday: bool = False, expired_date_myday: str = tomorrow) -> int:
@@ -36,12 +37,13 @@ class TaskModel:
         :param due_date: Due date for the task in YYYY-MM-DD format (optional).
         :return: ID of the newly created task.
         """
-        cursor = self.connection.cursor()
-        cursor.execute("""
-        INSERT INTO tasks (title, description, completed, important, due_date, created_date, is_myday, expired_date_myday)
-        VALUES (?, ?, 0, ?, ?, ?, ?, ?)
-        """, (title, description,important, due_date, created_date, is_myday, expired_date_myday))
-        self.connection.commit()
+        connection = db.connect_db()
+        userID = localStorage.userID
+        cursor = connection.execute("""
+        INSERT INTO Tasks (UserID, Title, Description, IsCompleted, IsImportant, DueDate, CreatedDate, IsMyday, ExpiredDateMyday)
+        VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?)
+        """, (userID, title, description, important, due_date, created_date, is_myday, expired_date_myday))
+        connection.commit()
         return cursor.lastrowid
 
     def get_all_tasks(self) -> List[Dict]:
@@ -50,15 +52,31 @@ class TaskModel:
 
         :return: List of tasks, each represented as a dictionary.
         """
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM tasks")
+        # cursor = self.connection.cursor()
+        # cursor.execute("SELECT * FROM tasks")
+        # rows = cursor.fetchall()
+        # tasks = [
+        #     {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]), "important": bool(row[4]),
+        #      "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
+        #     for row in rows
+        # ]
+
+        connection = db.connect_db()
+        userID = localStorage.userID
+        cursor = connection.execute("""
+        SELECT * FROM Tasks t
+        WHERE t.UserID = ?
+        """, (userID))
         rows = cursor.fetchall()
         tasks = [
-            {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]), "important": bool(row[4]),
-             "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
+            {"id": row[0], "title": row[2], "description": row[3], "due_date": row[4], "completed": bool(row[5]), 
+             "important": bool(row[8]), "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
             for row in rows
         ]
         return tasks
+
+
+
 
     def get_a_task(self, task_id: int) -> Dict:
         cursor = self.connection.cursor()
@@ -232,10 +250,10 @@ if __name__ == "__main__":
     model = TaskModel()
 
     # Add sample tasks
-    model.add_task("Buy groceries", "Milk, Bread, Eggs", "10/01/2024")
-    model.add_task("Submit report", "Complete Q4 report", "15/01/2024", important=True)
-    model.add_task("Clean the house", "Living room, Kitchen", "12/01/2024")
-    model.add_task("Workout", "Morning gym session", "11/01/2024", is_myday=True)
+    # model.add_task("Buy groceries", "Milk, Bread, Eggs", "10/01/2024")
+    # model.add_task("Submit report", "Complete Q4 report", "15/01/2024", important=True)
+    # model.add_task("Clean the house", "Living room, Kitchen", "12/01/2024")
+    # model.add_task("Workout", "Morning gym session", "11/01/2024", is_myday=True)
 
     print("Initial Tasks:")
     print(model.get_all_tasks())
