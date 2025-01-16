@@ -52,15 +52,6 @@ class TaskModel:
 
         :return: List of tasks, each represented as a dictionary.
         """
-        # cursor = self.connection.cursor()
-        # cursor.execute("SELECT * FROM tasks")
-        # rows = cursor.fetchall()
-        # tasks = [
-        #     {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]), "important": bool(row[4]),
-        #      "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
-        #     for row in rows
-        # ]
-
         connection = db.connect_db()
         userID = localStorage.userID
         cursor = connection.execute("""
@@ -70,7 +61,7 @@ class TaskModel:
         rows = cursor.fetchall()
         tasks = [
             {"id": row[0], "title": row[2], "description": row[3], "due_date": row[4], "completed": bool(row[5]), 
-             "important": bool(row[8]), "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
+             "important": bool(row[6]), "is_myday": bool(row[7]), "created_date": row[8], "expired_date_myday": row[9]}
             for row in rows
         ]
         return tasks
