@@ -34,7 +34,6 @@ class LoginController(QMainWindow):
         password = self.ui.pass_input_3.text()
 
         if self.validate_cred(username, password):
-            print("Login Successful")
             self.ui.notify_message_3.setText("Login Successful")
             self.open_main_page()
         else:
@@ -47,7 +46,9 @@ class LoginController(QMainWindow):
         cursor = connection.execute('SELECT * FROM Users u WHERE u.UserName = ? AND u.Password = ?', (username, password))
         result = cursor.fetchall()
         if(len(result) == 1):
-            localStorage.userID = result[0][0]
+            # localStorage.userID = result[0][0]
+            user_id = result[0][0]
+            localStorage.save_user_id(user_id=user_id)
             return True
         return False
 
@@ -55,14 +56,14 @@ class LoginController(QMainWindow):
         from main_controller import MainController
         self.main_window = MainController()
         self.main_window.show()
-        self.close()
+        self.hide()
         
 if __name__ == "__main__":
 
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # Optional: Improve pixmap scaling
 
-    localStorage = QApplication(sys.argv)
+    app = QApplication(sys.argv)
     login = LoginController()
     login.showMaximized()
-    sys.exit(localStorage.exec_())
+    sys.exit(app.exec_())

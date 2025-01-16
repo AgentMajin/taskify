@@ -7,6 +7,7 @@ currnet_dir = os.path.dirname(os.path.abspath(__file__))
 project_dir = os.path.abspath(os.path.join(currnet_dir, '..'))
 db_path = os.path.join(project_dir, 'main_todo.db')
 
+
 def connect_db() -> sqlite3.Connection:
     global db_context
     if(db_context is None):
