@@ -26,6 +26,8 @@ class TaskPage(QWidget):
         self.myday = myday
         self.task_clicked_callback = None
         self.task_updated_callback = None
+        self.detail_task_id = None
+        self.search_keyword = None
 
         super().__init__()
         self.setup_ui()

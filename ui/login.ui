@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>900</width>
+    <width>805</width>
     <height>765</height>
    </rect>
   </property>
@@ -370,8 +370,11 @@ padding-bottom: 7px
                 <layout class="QVBoxLayout" name="verticalLayout_19">
                  <item>
                   <widget class="QLineEdit" name="notify_message_3">
+                   <property name="enabled">
+                    <bool>true</bool>
+                   </property>
                    <property name="sizePolicy">
-                    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                      <horstretch>0</horstretch>
                      <verstretch>0</verstretch>
                     </sizepolicy>
@@ -391,7 +394,7 @@ padding-bottom: 7px
 </string>
                    </property>
                    <property name="text">
-                    <string/>
+                    <string>Login Failed! Check your username and password</string>
                    </property>
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>

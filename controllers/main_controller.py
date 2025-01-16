@@ -5,7 +5,6 @@ from PyQt5 import QtGui
 
 # Import icon file
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_3
 
 # Show App icon on Taskbar (Windows only)
 import ctypes
@@ -13,7 +12,7 @@ myappid = 'mycompany.myproduct.subproduct.version'  # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 from datetime import date, datetime, timedelta
-from PyQt5.QtCore import QObject, Qt, pyqtSignal, QDate
+from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame, QStyleFactory
 
 # Add paths for importing custom modules
@@ -352,8 +351,6 @@ class MainController(QMainWindow):
 if __name__ == "__main__":
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # Optional: Improve pixmap scaling
-
-
 
     app = QApplication(sys.argv)
     main_window = MainController()
