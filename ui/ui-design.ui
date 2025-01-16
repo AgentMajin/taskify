@@ -6,8 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
+<<<<<<< HEAD
     <width>1001</width>
     <height>580</height>
+=======
+    <width>1233</width>
+    <height>786</height>
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
    </rect>
   </property>
   <property name="sizePolicy">
@@ -269,16 +274,28 @@ margin-top:0px;</string>
               <number>9</number>
              </property>
              <item>
+<<<<<<< HEAD
               <widget class="QPushButton" name="pushButton_2">
                <property name="text">
                 <string>Change Password</string>
+=======
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="text">
+                <string>Logout</string>
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
                </property>
               </widget>
              </item>
              <item>
+<<<<<<< HEAD
               <widget class="QPushButton" name="pushButton_3">
                <property name="text">
                 <string>Logout</string>
+=======
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="text">
+                <string>Change Password</string>
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
                </property>
               </widget>
              </item>
@@ -3578,7 +3595,11 @@ QCheckBox::indicator::checked { image: url(:/icon/icons/check_fill.png); height:
                 </font>
                </property>
                <property name="text">
+<<<<<<< HEAD
                 <string/>
+=======
+                <string>Task Title Task Title Task Title Task Title</string>
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
                </property>
                <property name="wordWrap">
                 <bool>true</bool>

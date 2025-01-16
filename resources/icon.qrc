@@ -28,8 +28,11 @@
     <file>icons/sun_fill.png</file>
     <file>icons/trash.png</file>
     <file>icons/user.png</file>
+<<<<<<< HEAD
     <file>icons/close.png</file>
     <file>icons/star_fill_yellow.png</file>
+=======
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
     <file>img/important-bg.jpg</file>
     <file>img/important-bg-2.jpg</file>
     <file>img/login-background.jpg</file>

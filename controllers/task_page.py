@@ -15,7 +15,11 @@ class TaskPage(QWidget):
                  overdued_only: bool = False,
                  show_completed: bool = True,
                  allow_adding_task: bool = True,
+<<<<<<< HEAD
                  myday: bool = False,):
+=======
+                 myday: bool = False):
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
         self.data_model = data_model
         self.bg_url = bg_url
         self.title = title
@@ -233,6 +237,11 @@ class TaskPage(QWidget):
         self.task_input_4.clear()
 
     def filter_task(self):
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
         filtered_tasks = self.data_model.get_all_tasks()
 
         # Filter important tasks
@@ -246,7 +255,11 @@ class TaskPage(QWidget):
             for task in incompleted_task:
                 due_date_str = task.get('due_date') or '01/01/1970'  # Use default if due_date is None or empty
                 due_date = datetime.strptime(due_date_str, "%d/%m/%Y").date()
+<<<<<<< HEAD
                 if due_date < today and due_date != datetime.strptime('01/01/1970', '%d/%m/%Y').date():
+=======
+                if due_date < today:
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
                     filtered_tasks.append(task)
 
         # Filter myday Tasks
@@ -257,6 +270,7 @@ class TaskPage(QWidget):
 
         return filtered_tasks
 
+<<<<<<< HEAD
     def filter_search_keyword(self, search_keyword, tasks):
         if search_keyword is not None:
             search_keyword = search_keyword.lower()
@@ -268,6 +282,10 @@ class TaskPage(QWidget):
                     task_updated_callback: list,
                     detail_task_id=None,
                     search_keyword=None):
+=======
+
+    def reload_task(self, task_clicked_callback, task_updated_callback):
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
         """
         Reload tasks into the given layout.
         """
@@ -276,10 +294,13 @@ class TaskPage(QWidget):
             self.task_clicked_callback = task_clicked_callback
         if task_updated_callback:
             self.task_updated_callback = task_updated_callback
+<<<<<<< HEAD
         if detail_task_id:
             self.detail_task_id = detail_task_id
         if search_keyword:
             self.search_keyword = search_keyword
+=======
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Determine which layout to load task into: to do layout only or both to do layout and done task layout
         layouts = [self.verticalLayout_task_to_do]
@@ -297,13 +318,17 @@ class TaskPage(QWidget):
         # Filter which tasks to show using class arguments
         # tasks = self.data_model.get_all_tasks()
         tasks = self.filter_task()
+<<<<<<< HEAD
         if tasks:
             tasks = self.filter_search_keyword(search_keyword, tasks)
+=======
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Load tasks into layouts and assign callback function
         for task in tasks:
             if task["completed"] == True and self.show_completed == True:
                 layout = self.verticalLayout_done_task
+<<<<<<< HEAD
             elif not task["completed"]:
                 layout = self.verticalLayout_task_to_do
             else:
@@ -318,6 +343,17 @@ class TaskPage(QWidget):
                 task_frame.task_clicked.connect(callback)
             for callbacks in task_updated_callback:
                 task_frame.task_updated.connect(callbacks)
+=======
+            elif task["completed"] == False:
+                layout = self.verticalLayout_task_to_do
+            else:
+                continue
+            task_frame = TaskFrame(task["id"], self.data_model, completed=task["completed"])
+            layout.addWidget(task_frame)
+            task_frame.task_clicked.connect(task_clicked_callback)
+            for callback in task_updated_callback:
+                task_frame.task_updated.connect(callback)
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Change text of show/hide button to Hide Completed (since after reload, done task layout automatically show)
         self.show_completed_4.setText("Hide Completed")
@@ -331,10 +367,14 @@ class TaskPage(QWidget):
                     widget.deleteLater()
             self.show_completed_4.setText("Show Completed")
         else:
+<<<<<<< HEAD
             self.reload_task(self.task_clicked_callback,
                              self.task_updated_callback,
                              self.detail_task_id,
                              self.search_keyword)
+=======
+            self.reload_task(self.task_clicked_callback, self.task_updated_callback)
+>>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
             self.show_completed_4.setText("Hide Completed")
 if __name__ == "__main__":
     import sys
