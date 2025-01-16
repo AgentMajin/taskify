@@ -1,22 +1,18 @@
 import sys
 import os
-<<<<<<< HEAD
 
 from PyQt5 import QtGui
 
 # Import icon file
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_2
 
 # Show App icon on Taskbar (Windows only)
 import ctypes
 myappid = 'mycompany.myproduct.subproduct.version'  # arbitrary string
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 from datetime import date, datetime, timedelta
-from PyQt5.QtCore import QObject, Qt, pyqtSignal, QDate
+from PyQt5.QtCore import Qt, QDate
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame, QStyleFactory
 
 # Add paths for importing custom modules
@@ -40,11 +36,8 @@ class MainController(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.current_task_id = None
-<<<<<<< HEAD
         self.selected_menu_item = None
         self.previous_clicked_task = None
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Initialize the TaskModel
         self.task_model = TaskModel()
@@ -61,11 +54,8 @@ class MainController(QMainWindow):
         self.ui.task_title_2.textChanged.connect(self.update_task_title)
         self.ui.done_check_3.toggled.connect(self.update_completed)
         self.ui.myday_check.toggled.connect(self.update_myday)
-<<<<<<< HEAD
         self.ui.search_input.textChanged.connect(self.reload)
         self.ui.search_input.textChanged.connect(lambda: self.ui.task_details_frame.hide())
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Initialize and add task pages
         self.init_task_pages()
@@ -76,14 +66,11 @@ class MainController(QMainWindow):
         self.ui.overdued_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(3))
         self.ui.my_day_button.clicked.connect(lambda: self.ui.stackedWidget.setCurrentIndex(4))
 
-<<<<<<< HEAD
         self.ui.task_button.clicked.connect(self.switch_page_effect)
         self.ui.important_button.clicked.connect(self.switch_page_effect)
         self.ui.overdued_button.clicked.connect(self.switch_page_effect)
         self.ui.my_day_button.clicked.connect(self.switch_page_effect)
 
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
 
     def init_task_pages(self):
@@ -129,7 +116,6 @@ class MainController(QMainWindow):
         """
         Load tasks into each task page.
         """
-<<<<<<< HEAD
         #
         if not self.ui.task_details_frame.isHidden():
             detail_task_id = self.current_task_id
@@ -166,28 +152,6 @@ class MainController(QMainWindow):
 
         self.previous_clicked_task = None
 
-=======
-        self.all_task_page.reload_task(
-            task_clicked_callback=self.update_task_details,
-            task_updated_callback=[self.update_task_details, self.reload]
-        )
-
-        self.important_task_page.reload_task(
-            task_clicked_callback=self.update_task_details,
-            task_updated_callback=[self.update_task_details, self.reload]
-        )
-
-        self.overdued_task.reload_task(
-            task_clicked_callback=self.update_task_details,
-            task_updated_callback=[self.update_task_details, self.reload]
-        )
-
-        self.myday_task.reload_task(
-            task_clicked_callback=self.update_task_details,
-            task_updated_callback=[self.update_task_details, self.reload]
-        )
-
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
     def reload(self):
         """
         Reload tasks in all task pages.
@@ -227,11 +191,7 @@ class MainController(QMainWindow):
         """
         Update the task details section with the selected task's information.
         """
-<<<<<<< HEAD
 
-=======
-        print(task_data)
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
         # Update due date information
         if task_data.get('due_date'):
             # Convert due date string to QDate and block signals to prevent unintended updates
@@ -255,7 +215,6 @@ class MainController(QMainWindow):
 
         # Update to show if Task is in My Day list
         if (task_data['due_date'] == today_str or (task_data['is_myday'] == True and task_data['expired_date_myday'] == tomorrow_str)):
-<<<<<<< HEAD
             self.ui.myday_check.blockSignals(True)
             self.ui.myday_check.setChecked(True)
             self.ui.myday_check.setText("Added to My Day")
@@ -275,19 +234,6 @@ class MainController(QMainWindow):
         self.ui.done_check_3.blockSignals(True)
         self.ui.done_check_3.setChecked(task_data['completed'])
         self.ui.done_check_3.blockSignals(False)
-=======
-            self.ui.myday_check.setChecked(True)
-            self.ui.myday_check.setText("Added to My Day")
-        else:
-            self.ui.myday_check.setChecked(False)
-            self.ui.myday_check.setText("Add to My Day")
-
-        # Update tto show if Task is marked as important
-        self.ui.important_check.setChecked(task_data['important'])
-
-        # Update to show if Task is completed
-        self.ui.done_check_3.setChecked(task_data['completed'])
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
         # Update to show Task Description
         self.ui.input_note.setText(task_data['description'])
@@ -298,10 +244,7 @@ class MainController(QMainWindow):
         # If the Task Details Side Bar is hidden -> show it
         if self.ui.task_details_frame.isHidden():
             self.ui.task_details_frame.show()
-<<<<<<< HEAD
         self.reload()
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
 
     def delete_task(self):
         """
@@ -366,7 +309,6 @@ class MainController(QMainWindow):
         self.task_model.update_task(self.current_task_id, is_myday=self.ui.myday_check.isChecked())
         self.reload()
 
-<<<<<<< HEAD
     def switch_page_effect(self):
         # Highlight selected item
         if self.selected_menu_item:
@@ -400,8 +342,6 @@ class MainController(QMainWindow):
         # self.previous_clicked_task = sender
 
 
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
     def close_page(self):
         if self.ui.task_details_frame.isHidden():
             self.ui.task_details_frame.show()
@@ -412,9 +352,6 @@ if __name__ == "__main__":
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps, True)  # Optional: Improve pixmap scaling
 
-<<<<<<< HEAD
-
-
     app = QApplication(sys.argv)
     main_window = MainController()
     main_window.showMaximized()
@@ -422,9 +359,4 @@ if __name__ == "__main__":
     window_icon = QtGui.QIcon()
     window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     main_window.setWindowIcon(window_icon)
-=======
-    app = QApplication(sys.argv)
-    main_window = MainController()
-    main_window.showMaximized()
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
     sys.exit(app.exec_())

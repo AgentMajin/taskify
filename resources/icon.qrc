@@ -1,5 +1,9 @@
 <RCC>
   <qresource prefix="icon">
+    <file>img/login-background-3.jpg</file>
+    <file>img/login-background-2.jpg</file>
+    <file>img/login-background.jpg</file>
+    <file>note-background.jpg</file>
     <file>icons/add.png</file>
     <file>icons/attach-file.png</file>
     <file>icons/calendar.png</file>
@@ -9,7 +13,6 @@
     <file>icons/circle-check.png</file>
     <file>icons/clock.png</file>
     <file>icons/home.png</file>
-    <file>icons/icon_rc.py</file>
     <file>icons/keyboard-down.png</file>
     <file>icons/keyboard-left.png</file>
     <file>icons/keyboard-right.png</file>
@@ -28,11 +31,8 @@
     <file>icons/sun_fill.png</file>
     <file>icons/trash.png</file>
     <file>icons/user.png</file>
-<<<<<<< HEAD
     <file>icons/close.png</file>
     <file>icons/star_fill_yellow.png</file>
-=======
->>>>>>> fe505797a552cbb4da9b0c4220fa43164c53313e
     <file>img/important-bg.jpg</file>
     <file>img/important-bg-2.jpg</file>
     <file>img/login-background.jpg</file>
