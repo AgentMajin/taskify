@@ -1,6 +1,6 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QWidget, QMessageBox, QScrollArea
-from task_frame import TaskFrame
+from controllers.task_frame import TaskFrame
 from datetime import datetime, date, timedelta
 
 today = date.today()

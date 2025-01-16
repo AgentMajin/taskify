@@ -6,6 +6,7 @@ from context import localStorage
 today = str(datetime.today().date().strftime('%d/%m/%Y'))
 tomorrow = (date.today() + timedelta(days=1)).strftime('%d/%m/%Y')
 
+
 class TaskModel:
     # def __init__(self, db_path: str = "todo_app.db"):
     #     """
@@ -38,7 +39,7 @@ class TaskModel:
         :return: ID of the newly created task.
         """
         connection = db.connect_db()
-        userID = localStorage.userID
+        userID = localStorage.load_user_id()
         cursor = connection.execute("""
         INSERT INTO Tasks (UserID, Title, Description, IsCompleted, IsImportant, DueDate, CreatedDate, IsMyday, ExpiredDateMyday)
         VALUES (?, ?, ?, 0, ?, ?, ?, ?, ?)
@@ -53,11 +54,11 @@ class TaskModel:
         :return: List of tasks, each represented as a dictionary.
         """
         connection = db.connect_db()
-        userID = localStorage.userID
+        userID = localStorage.load_user_id()
         cursor = connection.execute("""
         SELECT * FROM Tasks t
         WHERE t.UserID = ?
-        """, (userID))
+""", (userID,))
         rows = cursor.fetchall()
         tasks = [
             {"id": row[0], "title": row[2], "description": row[3], "due_date": row[4], "completed": bool(row[5]), 
@@ -71,7 +72,7 @@ class TaskModel:
 
     def get_a_task(self, task_id: int) -> Dict:
         connection = db.connect_db()
-        userID = localStorage.userID
+        userID = localStorage.load_user_id()
         cursor = connection.execute("""
                        SELECT * FROM Tasks t
                        WHERE t.UserID = ?
@@ -140,15 +141,17 @@ class TaskModel:
             params.append(expired_date_myday)
         
         connection = db.connect_db()
-        userID = localStorage.userID
+
+        userID = localStorage.load_user_id()
+        params.insert(0, userID)
+        base_query = "SELECT * FROM TASKS WHERE USERID = ?"
 
         if conditions:
-            conditions_query = f" {conditions_join_type.join(conditions)} "
+            conditions_join_type = f' {conditions_join_type} '
+            conditions_query = f" {conditions_join_type}".join(conditions)
+            base_query += f" and {conditions_query}"
 
-            cursor = connection.execute((f"""
-                        SELECT * FROM Tasks 
-                        WHERE UserID = ?
-                        AND {conditions_query}""", (userID)), params)
+            cursor = connection.execute(base_query, tuple(params))
             rows = cursor.fetchall()
             if rows is None:
                 return None
@@ -174,7 +177,7 @@ class TaskModel:
         updates = []
         params = []
         connection = db.connect_db()
-        userID = localStorage.userID
+        userID = localStorage.load_user_id()
         if title is not None:
             updates.append("Title = ?")
             params.append(title)
@@ -213,7 +216,7 @@ class TaskModel:
         :param task_id: ID of the task to delete.
         """
         connection = db.connect_db()
-        userID = localStorage.userID
+        userID = localStorage.load_user_id()
         connection.execute("DELETE FROM Tasks WHERE UserID = ? AND TaskID = ?", (userID, task_id))
         connection.commit()
 
@@ -253,11 +256,10 @@ if __name__ == "__main__":
     model = TaskModel()
 
     # Add sample tasks
-    # model.add_task("Buy groceries", "Milk, Bread, Eggs", "10/01/2024")
+    # model.add_task("Buy groceries", "Milk, Bread, Eggs", "10/01/2024", important=True, is_myday=True)
     # model.add_task("Submit report", "Complete Q4 report", "15/01/2024", important=True)
     # model.add_task("Clean the house", "Living room, Kitchen", "12/01/2024")
     # model.add_task("Workout", "Morning gym session", "11/01/2024", is_myday=True)
-
     print("Initial Tasks:")
     print(model.get_all_tasks())
 

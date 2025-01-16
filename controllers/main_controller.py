@@ -18,11 +18,12 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox, QFrame, QSty
 # Add paths for importing custom modules
 sys.path.append(os.path.join(os.path.dirname(__file__), 'models'))
 sys.path.append(os.path.join(os.path.dirname(__file__), 'ui'))
+sys.path.append(os.path.join(os.path.dirname(__file__), 'controllers'))
 
 from ui.main_ui import Ui_MainWindow  # Import the generated UI class
 from models.main_model import TaskModel  # Import the task model
-from task_frame import TaskFrame  # Import the custom task frame
-from task_page import TaskPage  # Import the custom task page
+# from task_frame import TaskFrame  # Import the custom task frame
+from controllers.task_page import TaskPage  # Import the custom task page
 
 # Config date string
 today = date.today()
@@ -41,9 +42,6 @@ class MainController(QMainWindow):
 
         # Initialize the TaskModel
         self.task_model = TaskModel()
-        self.task_model.add_column_if_not_exists(table_name="Tasks", column_name="is_myday", column_type="boolean")
-        self.task_model.add_column_if_not_exists(table_name="Tasks", column_name="expired_date_myday",
-                                                 column_type="text")
 
         # Connect UI buttons to their respective methods
         self.ui.delete_task_button.clicked.connect(self.delete_task)  # Handle deleting a task
@@ -275,9 +273,10 @@ class MainController(QMainWindow):
         self.task_model.update_task(self.current_task_id, due_date=date_string)
         # Update to show if Task is in My Day list
         is_myday = self.task_model.get_a_task(self.current_task_id).get('is_myday')
-        if is_myday:
+        expired_date_myday = self.task_model.get_a_task(self.current_task_id).get('expired_date_myday')
+        if is_myday and (expired_date_myday == tomorrow_str):
             pass
-        elif ((not self.ui.myday_check.isChecked()) and (date_string == today_str)):
+        elif (not self.ui.myday_check.isChecked()) and (date_string == today_str):
             self.ui.myday_check.setChecked(True)
             self.ui.myday_check.setText("Added to My Day")
         elif (self.ui.myday_check.isChecked()) and (date_string != tomorrow_str):
