@@ -70,8 +70,13 @@ class TaskModel:
 
 
     def get_a_task(self, task_id: int) -> Dict:
-        cursor = self.connection.cursor()
-        cursor.execute("SELECT * FROM tasks WHERE id = ?", (task_id,))
+        connection = db.connect_db()
+        userID = localStorage.userID
+        cursor = connection.execute("""
+                       SELECT * FROM Tasks t
+                       WHERE t.UserID = ?
+                       AND t.TaskID = ?
+                       """, (userID, task_id))
         row = cursor.fetchone()
         if row is None:
             return None  # No task found with the given ID
@@ -79,14 +84,14 @@ class TaskModel:
         # Convert the row into a dictionary
         task = {
             "id": row[0],
-            "title": row[1],
-            "description": row[2],
-            "completed": bool(row[3]),
-            "important": bool(row[4]),
-            "due_date": row[5],
-            "created_date": row[6],
+            "title": row[2],
+            "description": row[3],
+            "due_date": row[4],
+            "completed": bool(row[5]),
+            "important": bool(row[6]),
             "is_myday": bool(row[7]),
-            "expired_date_myday": row[8]
+            "created_date": row[8],
+            "expired_date_myday": row[9]
         }
         return task
 
@@ -110,42 +115,46 @@ class TaskModel:
         params = []
 
         if title is not None:
-            conditions.append("title = ?")
+            conditions.append("Title = ?")
             params.append(title)
         if description is not None:
-            conditions.append("description = ?")
+            conditions.append("Description = ?")
             params.append(description)
         if completed is not None:
-            conditions.append("completed = ?")
+            conditions.append("IsCompleted = ?")
             params.append(int(completed))  # SQLite uses 0/1 for BOOLEAN
         if due_date is not None:
-            conditions.append("due_date = ?")
+            conditions.append("DueDate = ?")
             params.append(due_date)
         if created_date is not None:
-            conditions.append("created_date = ?")
+            conditions.append("CreatedDate = ?")
             params.append(created_date)
         if important is not None:
-            conditions.append("important = ?")
+            conditions.append("IsImportant = ?")
             params.append(important)
         if is_myday is not None:
-            conditions.append("is_myday = ?")
+            conditions.append("IsMyday = ?")
             params.append(is_myday)
         if expired_date_myday is not None:
-            conditions.append("expired_date_myday = ?")
+            conditions.append("ExpiredDateMyday = ?")
             params.append(expired_date_myday)
+        
+        connection = db.connect_db()
+        userID = localStorage.userID
 
         if conditions:
-            cursor = self.connection.cursor()
-            conditions_join_type = f" {conditions_join_type} "
-            query = f"SELECT * FROM tasks WHERE {conditions_join_type.join(conditions)}"
-            cursor.execute(query, params)
+            conditions_query = f" {conditions_join_type.join(conditions)} "
+
+            cursor = connection.execute((f"""
+                        SELECT * FROM Tasks 
+                        WHERE UserID = ?
+                        AND {conditions_query}""", (userID)), params)
             rows = cursor.fetchall()
             if rows is None:
                 return None
             tasks = [
-                {"id": row[0], "title": row[1], "description": row[2], "completed": bool(row[3]),
-                 "important": bool(row[4]),
-                 "due_date": row[5], "created_date": row[6], "is_myday": bool(row[7]), "expired_date_myday": row[8]}
+                {"id": row[0], "title": row[2], "description": row[3], "due_date": row[4], "completed": bool(row[5]), 
+                "important": bool(row[6]), "is_myday": bool(row[7]), "created_date": row[8], "expired_date_myday": row[9]}
                 for row in rows
             ]
             return tasks
@@ -164,37 +173,38 @@ class TaskModel:
         """
         updates = []
         params = []
+        connection = db.connect_db()
+        userID = localStorage.userID
         if title is not None:
-            updates.append("title = ?")
+            updates.append("Title = ?")
             params.append(title)
         if description is not None:
-            updates.append("description = ?")
+            updates.append("Description = ?")
             params.append(description)
         if completed is not None:
-            updates.append("completed = ?")
+            updates.append("IsCompleted = ?")
             params.append(int(completed))  # SQLite uses 0/1 for BOOLEAN
         if due_date is not None:
-            updates.append("due_date = ?")
+            updates.append("DueDate = ?")
             params.append(due_date)
         if created_date is not None:
-            updates.append("created_date = ?")
+            updates.append("CreatedDate = ?")
             params.append(created_date)
         if important is not None:
-            updates.append("important = ?")
+            updates.append("IsImportant = ?")
             params.append(important)
         if is_myday is not None:
-            updates.append("is_myday = ?")
+            updates.append("IsMyday = ?")
             params.append(is_myday)
         if expired_date_myday is not None:
-            updates.append("expired_date_myday = ?")
+            updates.append("ExpiredDateMyday = ?")
             params.append(expired_date_myday)
 
         if updates:
-            cursor = self.connection.cursor()
-            query = f"UPDATE tasks SET {', '.join(updates)} WHERE id = ?"
+            query = f"UPDATE Tasks SET {', '.join(updates)} WHERE TaskID = ? AND UserID = {userID}"
             params.append(task_id)
-            cursor.execute(query, params)
-            self.connection.commit()
+            connection.execute(query, params)
+            connection.commit()
 
     def delete_task(self, task_id: int):
         """
@@ -202,39 +212,41 @@ class TaskModel:
 
         :param task_id: ID of the task to delete.
         """
-        cursor = self.connection.cursor()
-        cursor.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
-        self.connection.commit()
+        connection = db.connect_db()
+        userID = localStorage.userID
+        connection.execute("DELETE FROM Tasks WHERE UserID = ? AND TaskID = ?", (userID, task_id))
+        connection.commit()
 
     def close_connection(self):
         """
         Close the connection to the database.
         """
-        self.connection.close()
+        connection = db.connect_db()
+        connection.close()
 
 
     #draft method
-    def add_column_if_not_exists(self, table_name, column_name, column_type):
-        """
-        Add a column to a SQLite table if it does not already exist.
+    # def add_column_if_not_exists(self, table_name, column_name, column_type):
+    #     """
+    #     Add a column to a SQLite table if it does not already exist.
 
-        :param connection: SQLite database connection object.
-        :param table_name: Name of the table to alter.
-        :param column_name: Name of the column to add.
-        :param column_type: Data type of the column (e.g., TEXT, INTEGER).
-        """
-        cursor = self.connection.cursor()
+    #     :param connection: SQLite database connection object.
+    #     :param table_name: Name of the table to alter.
+    #     :param column_name: Name of the column to add.
+    #     :param column_type: Data type of the column (e.g., TEXT, INTEGER).
+    #     """
+    #     cursor = self.connection.cursor()
 
-        # Check if the column exists
-        cursor.execute(f"PRAGMA table_info({table_name})")
-        columns = [row[1] for row in cursor.fetchall()]  # Column names are in the second position
+    #     # Check if the column exists
+    #     cursor.execute(f"PRAGMA table_info({table_name})")
+    #     columns = [row[1] for row in cursor.fetchall()]  # Column names are in the second position
 
-        if column_name not in columns:
-            # Add the column since it does not exist
-            cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}")
-            print(f"Column '{column_name}' added to table '{table_name}'.")
+    #     if column_name not in columns:
+    #         # Add the column since it does not exist
+    #         cursor.execute(f"ALTER TABLE {table_name} ADD COLUMN {column_name} {column_type}")
+    #         print(f"Column '{column_name}' added to table '{table_name}'.")
 
-        self.connection.commit()
+    #     self.connection.commit()
 
 if __name__ == "__main__":
     # Initialize the TaskModel
