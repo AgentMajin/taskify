@@ -363,4 +363,5 @@ if __name__ == "__main__":
     window_icon = QtGui.QIcon()
     window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
     main_window.setWindowIcon(window_icon)
+    main_window.setStyle(QStyleFactory.create('Fusion'))
     sys.exit(app.exec_())

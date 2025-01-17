@@ -66,7 +66,7 @@ class TaskFrame(QtWidgets.QFrame):
 
         layout = QtWidgets.QHBoxLayout(frame)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        layout.setSpacing(5)
 
         # Done checkbox
         self.done_check = QtWidgets.QCheckBox()
@@ -82,6 +82,7 @@ class TaskFrame(QtWidgets.QFrame):
                 height: 20px; 
                 width: 20px;
             }
+            QCheckBox {margin: 5px}
         """)
         self.done_check.setText("")
         self.done_check.setChecked(task_done)
