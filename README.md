@@ -34,7 +34,6 @@ Taskify is an open-source task management application designed for simplicity, e
 
 - **Scalability:** Efficiently handle a growing number of tasks.
 - **Cross-platform Compatibility:** Runs on Windows, Linux, and macOS.
-- **Security:** Maintain data integrity with robust database practices.
 - **Maintainability:** Modular design for ease of future development and updates.
 
 ---
