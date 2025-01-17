@@ -2,14 +2,19 @@ import sys
 import os
 
 from PyQt5 import QtGui
+import platform
+
 
 # Import icon file
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
 
 # Show App icon on Taskbar (Windows only)
 import ctypes
-myappid = 'mycompany.myproduct.subproduct.version'  # arbitrary string
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+# Check if the operating system is not macOS & Linux
+if platform.system() not in ["Darwin", "Linux"]:
+    myappid = 'mycompany.myproduct.subproduct.version'  # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 from datetime import date, datetime, timedelta
 from PyQt5.QtCore import Qt, QDate
