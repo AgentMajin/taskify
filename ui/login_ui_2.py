@@ -12,7 +12,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_3
+import icon_rc_4
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):

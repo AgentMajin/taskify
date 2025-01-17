@@ -32,7 +32,7 @@ today = date.today()
 # today = (date.today() + timedelta(days=1))
 today_str = today.strftime("%d/%m/%Y")
 tomorrow_str = (today + timedelta(days=1)).strftime('%d/%m/%Y')
-
+cheating_space = "                                                  "
 class MainController(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -220,12 +220,12 @@ class MainController(QMainWindow):
         if (task_data['due_date'] == today_str or (task_data['is_myday'] == True and task_data['expired_date_myday'] == tomorrow_str)):
             self.ui.myday_check.blockSignals(True)
             self.ui.myday_check.setChecked(True)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
             self.ui.myday_check.blockSignals(False)
         else:
             self.ui.myday_check.blockSignals(True)
             self.ui.myday_check.setChecked(False)
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
             self.ui.myday_check.blockSignals(False)
 
         # Update tto show if Task is marked as important
@@ -283,10 +283,10 @@ class MainController(QMainWindow):
             pass
         elif (not self.ui.myday_check.isChecked()) and (date_string == today_str):
             self.ui.myday_check.setChecked(True)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
         elif (self.ui.myday_check.isChecked()) and (date_string != tomorrow_str):
             self.ui.myday_check.setChecked(False)
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
         self.reload()
 
     def update_important(self):
@@ -307,9 +307,9 @@ class MainController(QMainWindow):
     def update_myday(self):
         if self.ui.myday_check.isChecked():
             self.task_model.update_task(self.current_task_id, expired_date_myday=tomorrow_str)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
         else:
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
         self.task_model.update_task(self.current_task_id, is_myday=self.ui.myday_check.isChecked())
         self.reload()
 
