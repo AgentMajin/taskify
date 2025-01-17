@@ -28,24 +28,6 @@
   </li>
 </ol>
 
-<h2>Preview UI</h2>
+<h2>Run App</h2>
+    <pre><code>python main.py</code></pre>
 
-<h3>Main UI</h3>
-<ol>
-  <li>Navigate to the <code>ui</code> folder:
-    <pre><code>cd ui</code></pre>
-  </li>
-  <li>Run the Main UI:
-    <pre><code>python main-ui.py</code></pre>
-  </li>
-</ol>
-
-<h3>Login UI</h3>
-<ol>
-  <li>Navigate to the <code>ui</code> folder (if not already):
-    <pre><code>cd ui</code></pre>
-  </li>
-  <li>Run the Login UI:
-    <pre><code>python login-ui.py</code></pre>
-  </li>
-</ol>
