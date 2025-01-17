@@ -11,7 +11,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import PyQt5
 # PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
-
+cheating_space = "                                                  "
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -175,7 +175,7 @@ class Ui_MainWindow(object):
         self.menu.setFrameShadow(QtWidgets.QFrame.Raised)
         self.menu.setObjectName("menu")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.menu)
-        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_3.setContentsMargins(0, 0, 10, 0)
         self.horizontalLayout_3.setSpacing(0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.menu_frame = QtWidgets.QFrame(self.menu)
@@ -328,7 +328,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_3.addWidget(self.menu_frame, 0, QtCore.Qt.AlignTop)
         self.verticalLayout_2.addWidget(self.menu)
         self.footer = QtWidgets.QFrame(self.sidebar)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.footer.sizePolicy().hasHeightForWidth())
@@ -336,19 +336,28 @@ class Ui_MainWindow(object):
         self.footer.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.footer.setFrameShadow(QtWidgets.QFrame.Raised)
         self.footer.setObjectName("footer")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.footer)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_3.setSpacing(0)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
-        self.project_name_label = QtWidgets.QLabel(self.footer)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        self.horizontalLayout_23 = QtWidgets.QHBoxLayout(self.footer)
+        self.horizontalLayout_23.setContentsMargins(20, 0, 20, 30)
+        self.horizontalLayout_23.setSpacing(0)
+        self.horizontalLayout_23.setObjectName("horizontalLayout_23")
+
+        self.logout_button = QtWidgets.QPushButton(self.footer)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.project_name_label.sizePolicy().hasHeightForWidth())
-        self.project_name_label.setSizePolicy(sizePolicy)
-        self.project_name_label.setObjectName("project_name_label")
-        self.verticalLayout_3.addWidget(self.project_name_label, 0, QtCore.Qt.AlignBottom)
-        self.verticalLayout_2.addWidget(self.footer, 0, QtCore.Qt.AlignHCenter)
+        sizePolicy.setHeightForWidth(self.logout_button.sizePolicy().hasHeightForWidth())
+        self.logout_button.setSizePolicy(sizePolicy)
+        self.logout_button.setStyleSheet("#logout_button: {border-radius:5px}")
+        self.logout_button.setText("Logout")
+        font = QtGui.QFont()
+        font.setFamily("Microsoft JhengHei")
+        font.setPointSize(10)
+        font.setBold(True)
+        self.logout_button.setFont(font)
+        self.logout_button.setObjectName("logout_button")
+        self.horizontalLayout_23.addWidget(self.logout_button, 0)
+
+        self.verticalLayout_2.addWidget(self.footer, 0)
         self.horizontalLayout.addWidget(self.sidebar)
         self.stackedWidget = QtWidgets.QStackedWidget(self.centralwidget)
         self.stackedWidget.setObjectName("stackedWidget")
@@ -515,7 +524,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_9.setObjectName("verticalLayout_9")
 
         self.add_to_myday_frame = QtWidgets.QFrame(self.frame_3)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.add_to_myday_frame.sizePolicy().hasHeightForWidth())
@@ -533,11 +542,11 @@ class Ui_MainWindow(object):
         self.add_to_myday_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.add_to_myday_frame.setObjectName("add_to_my_day_frame")
         self.horizontalLayout_21 = QtWidgets.QHBoxLayout(self.add_to_myday_frame)
-        self.horizontalLayout_21.setContentsMargins(-1, 12, -1, 12)
+        self.horizontalLayout_21.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_21.setObjectName("horizontalLayout_21")
 
         self.myday_check = QtWidgets.QCheckBox(self.add_to_myday_frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.myday_check.sizePolicy().hasHeightForWidth())
@@ -549,11 +558,11 @@ class Ui_MainWindow(object):
         self.myday_check.setFont(font)
         self.myday_check.setStyleSheet(
                 "QCheckBox::indicator::unchecked { image: url(:/icon/icons/sun.png); height: "
-                "22px; width: 22px}\n"
+                "22px; width: 22px;}\n"
                 "\n"
                 "QCheckBox::indicator::checked { image: url(:/icon/icons/sun_fill.png); height: 22px; width: 22px}\n"
                 "\n"
-                "QCheckBox {color: #5f6368}")
+                "QCheckBox {color: #5f6368; padding: 15px}")
         self.myday_check.setObjectName("add_check")
         self.horizontalLayout_21.addWidget(self.myday_check, 0, QtCore.Qt.AlignLeft)
         self.frame = QtWidgets.QFrame(self.add_to_myday_frame)
@@ -583,12 +592,12 @@ class Ui_MainWindow(object):
         self.add_to_important_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.add_to_important_frame.setObjectName("add_to_important_frame")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.add_to_important_frame)
-        self.horizontalLayout_6.setContentsMargins(-1, 12, -1, 12)
+        self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_6.setObjectName("horizontalLayout_6")
 
 
         self.important_check = QtWidgets.QCheckBox(self.add_to_important_frame)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.important_check.sizePolicy().hasHeightForWidth())
@@ -603,7 +612,7 @@ class Ui_MainWindow(object):
 "\n"
 "QCheckBox::indicator::checked { image: url(:/icon/icons/star_fill_yellow.png); height: 22px; width: 22px}\n"
 "\n"
-"QCheckBox {color: #5f6368}")
+"QCheckBox {color: #5f6368; padding: 15px}")
         self.important_check.setObjectName("add_check")
         self.horizontalLayout_6.addWidget(self.important_check, 0, QtCore.Qt.AlignLeft)
         self.frame = QtWidgets.QFrame(self.add_to_important_frame)
@@ -789,15 +798,15 @@ class Ui_MainWindow(object):
         self.name_label.setText(_translate("MainWindow", "User Name"))
         self.email_label.setText(_translate("MainWindow", "useremail@email.com"))
         self.search_input.setPlaceholderText(_translate("MainWindow", "Search"))
-        self.overdued_button.setText(_translate("MainWindow", "    Overdued                                          "))
-        self.important_button.setText(_translate("MainWindow", "    Important                                        "))
-        self.my_day_button.setText(_translate("MainWindow", "    My Day                                              "))
-        self.task_button.setText(_translate("MainWindow", "    All Tasks                                              "))
-        self.project_name_label.setText(_translate("MainWindow", "UIT - Python Course Final Project Ver.1"))
+        self.overdued_button.setText(_translate("MainWindow", f"    Overdued {cheating_space}"))
+        self.important_button.setText(_translate("MainWindow", f"    Important {cheating_space}"))
+        self.my_day_button.setText(_translate("MainWindow", f"    My Day {cheating_space}"))
+        self.task_button.setText(_translate("MainWindow", f"    All Tasks {cheating_space}"))
+        # self.project_name_label.setText(_translate("MainWindow", "UIT - Python Course Final Project Ver.1"))
         self.task_title_5.setText(_translate("MainWindow", "Welcome Back! Have a nice working day"))
         self.task_title_2.setText(_translate("MainWindow", "Task Title"))
-        self.myday_check.setText(_translate("MainWindow", " Add to My Day"))
-        self.important_check.setText(_translate("MainWindow", " Mark as Important"))
+        self.myday_check.setText(_translate("MainWindow", f" Add to My Day {cheating_space}"))
+        self.important_check.setText(_translate("MainWindow", f" Mark as Important{cheating_space}"))
         self.due_date_button.setText(_translate("MainWindow", "Due Date"))
         self.input_note.setPlaceholderText(_translate("MainWindow", "Add note"))
         self.delete_task_button.setText(_translate("MainWindow", "    Delete Task"))
@@ -806,7 +815,7 @@ class Ui_MainWindow(object):
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_3
+import icon_rc_4
 
 
 if __name__ == "__main__":

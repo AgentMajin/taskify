@@ -29,13 +29,15 @@ from ui.main_ui import Ui_MainWindow  # Import the generated UI class
 from models.main_model import TaskModel  # Import the task model
 # from task_frame import TaskFrame  # Import the custom task frame
 from controllers.task_page import TaskPage  # Import the custom task page
+from context import database as db
+from context import localStorage
 
 # Config date string
 today = date.today()
 # today = (date.today() + timedelta(days=1))
 today_str = today.strftime("%d/%m/%Y")
 tomorrow_str = (today + timedelta(days=1)).strftime('%d/%m/%Y')
-
+cheating_space = "                                                  "
 class MainController(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -59,6 +61,7 @@ class MainController(QMainWindow):
         self.ui.myday_check.toggled.connect(self.update_myday)
         self.ui.search_input.textChanged.connect(self.reload)
         self.ui.search_input.textChanged.connect(lambda: self.ui.task_details_frame.hide())
+        self.ui.logout_button.clicked.connect(self.logout)
 
         # Initialize and add task pages
         self.init_task_pages()
@@ -74,7 +77,9 @@ class MainController(QMainWindow):
         self.ui.overdued_button.clicked.connect(self.switch_page_effect)
         self.ui.my_day_button.clicked.connect(self.switch_page_effect)
 
-
+        self.get_user_infor()
+        self.ui.name_label.setText(self.user_name)
+        self.ui.email_label.setText(self.user_email)
 
     def init_task_pages(self):
         """
@@ -126,28 +131,28 @@ class MainController(QMainWindow):
             detail_task_id = None
 
         self.all_task_page.reload_task(
-            task_clicked_callback=[self.update_task_details, self.highlight_task],
+            task_clicked_callback=[self.update_task_details],
             task_updated_callback=[self.update_task_details, self.reload],
             detail_task_id = detail_task_id,
             search_keyword=self.ui.search_input.text()
         )
 
         self.important_task_page.reload_task(
-            task_clicked_callback=[self.update_task_details, self.highlight_task],
+            task_clicked_callback=[self.update_task_details],
             task_updated_callback=[self.update_task_details, self.reload],
             detail_task_id = detail_task_id,
             search_keyword=self.ui.search_input.text()
         )
 
         self.overdued_task.reload_task(
-            task_clicked_callback=[self.update_task_details, self.highlight_task],
+            task_clicked_callback=[self.update_task_details],
             task_updated_callback=[self.update_task_details, self.reload],
             detail_task_id = detail_task_id,
             search_keyword=self.ui.search_input.text()
         )
 
         self.myday_task.reload_task(
-            task_clicked_callback=[self.update_task_details, self.highlight_task],
+            task_clicked_callback=[self.update_task_details],
             task_updated_callback=[self.update_task_details, self.reload],
             detail_task_id = detail_task_id,
             search_keyword=self.ui.search_input.text()
@@ -220,12 +225,12 @@ class MainController(QMainWindow):
         if (task_data['due_date'] == today_str or (task_data['is_myday'] == True and task_data['expired_date_myday'] == tomorrow_str)):
             self.ui.myday_check.blockSignals(True)
             self.ui.myday_check.setChecked(True)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
             self.ui.myday_check.blockSignals(False)
         else:
             self.ui.myday_check.blockSignals(True)
             self.ui.myday_check.setChecked(False)
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
             self.ui.myday_check.blockSignals(False)
 
         # Update tto show if Task is marked as important
@@ -283,10 +288,10 @@ class MainController(QMainWindow):
             pass
         elif (not self.ui.myday_check.isChecked()) and (date_string == today_str):
             self.ui.myday_check.setChecked(True)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
         elif (self.ui.myday_check.isChecked()) and (date_string != tomorrow_str):
             self.ui.myday_check.setChecked(False)
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
         self.reload()
 
     def update_important(self):
@@ -307,9 +312,9 @@ class MainController(QMainWindow):
     def update_myday(self):
         if self.ui.myday_check.isChecked():
             self.task_model.update_task(self.current_task_id, expired_date_myday=tomorrow_str)
-            self.ui.myday_check.setText("Added to My Day")
+            self.ui.myday_check.setText("Added to My Day" + cheating_space)
         else:
-            self.ui.myday_check.setText("Add to My Day")
+            self.ui.myday_check.setText("Add to My Day" + cheating_space)
         self.task_model.update_task(self.current_task_id, is_myday=self.ui.myday_check.isChecked())
         self.reload()
 
@@ -327,30 +332,25 @@ class MainController(QMainWindow):
 
         self.selected_menu_item = parent_frame
 
-    def highlight_task(self):
-        pass
-        # sender = self.sender()
-        # sender.change_stylesheet("""
-        #     QFrame {
-        #         border-radius: 5px;
-        #         background-color: black;
-        #     }
-        # """)
-        # if self.previous_clicked_task is not None:
-        #     self.previous_clicked_task.change_stylesheet("""
-        #     QFrame {
-        #         border-radius: 5px;
-        #         background-color: white;
-        #     }
-        # """)
-        # self.previous_clicked_task = sender
-
+    def get_user_infor(self):
+        user_id = localStorage.load_user_id()
+        connection = db.connect_db()
+        cursor = connection.execute("SELECT USERNAME, EMAIL FROM USERS WHERE UserId = ?",(user_id,))
+        result = cursor.fetchall()
+        self.user_name = result[0][0]
+        self.user_email = result[0][1]
 
     def close_page(self):
         if self.ui.task_details_frame.isHidden():
             self.ui.task_details_frame.show()
         else:
             self.ui.task_details_frame.hide()
+
+    def logout(self):
+        from login_page import LoginController
+        login = LoginController()
+        login.show()
+        self.hide()
 
 if __name__ == "__main__":
     QApplication.setAttribute(Qt.AA_EnableHighDpiScaling, True)

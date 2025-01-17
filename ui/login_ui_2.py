@@ -12,7 +12,7 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
-import icon_rc_3
+import icon_rc_4
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -378,6 +378,21 @@ class Ui_MainWindow(object):
         self.username_input.setText("")
         self.username_input.setObjectName("username_input")
         self.verticalLayout_9.addWidget(self.username_input)
+        self.email_input = QtWidgets.QLineEdit(self.frame_9)
+        font = QtGui.QFont()
+        font.setFamily("Microsoft JhengHei")
+        font.setBold(True)
+        font.setWeight(75)
+        self.email_input.setFont(font)
+        self.email_input.setStyleSheet("background-color: rgb(0,0,0,0);\n"
+                                              "border: none;\n"
+                                              "border-bottom: 1px solid #33fcff;\n"
+                                              "color: rgba(255,255,255,230);\n"
+                                              "padding-bottom: 7px\n"
+                                              "")
+        # self.email_input.setEchoMode(QtWidgets.QLineEdit.Password)
+        self.email_input.setObjectName("email_input")
+        self.verticalLayout_9.addWidget(self.email_input)
         self.pass_input = QtWidgets.QLineEdit(self.frame_9)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -416,6 +431,7 @@ class Ui_MainWindow(object):
         self.confirm_pass_input.setEchoMode(QtWidgets.QLineEdit.Password)
         self.confirm_pass_input.setObjectName("confirm_pass_input")
         self.verticalLayout_9.addWidget(self.confirm_pass_input)
+
         self.verticalLayout_7.addWidget(self.frame_9, 0, QtCore.Qt.AlignTop)
         self.signup_button_frame = QtWidgets.QFrame(self.signup_frame)
         self.signup_button_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -817,20 +833,21 @@ class Ui_MainWindow(object):
         self.pass_input_3.setPlaceholderText(_translate("MainWindow", "Password"))
         self.login_button.setText(_translate("MainWindow", "Login"))
         self.go_to_signup_2.setText(_translate("MainWindow", "Sign up"))
-        self.go_to_reset_pass.setText(_translate("MainWindow", "Reset Password"))
+        self.go_to_reset_pass.setText(_translate("MainWindow", "Change Password"))
         self.signup_title.setText(_translate("MainWindow", "Sign up"))
         self.username_input.setPlaceholderText(_translate("MainWindow", "Username"))
         self.pass_input.setPlaceholderText(_translate("MainWindow", "Password"))
+        self.email_input.setPlaceholderText(_translate("MainWindow", "Email"))
         self.confirm_pass_input.setPlaceholderText(_translate("MainWindow", "Confirm Password"))
         self.signup_button.setText(_translate("MainWindow", "Create Account"))
         self.back_to_login.setText(_translate("MainWindow", "Log in"))
-        self.go_to_reset_pass_2.setText(_translate("MainWindow", "Reset Password"))
-        self.reset_pass_title.setText(_translate("MainWindow", "Reset password"))
+        self.go_to_reset_pass_2.setText(_translate("MainWindow", "Change Password"))
+        self.reset_pass_title.setText(_translate("MainWindow", "Change password"))
         self.username.setPlaceholderText(_translate("MainWindow", "Username"))
         self.current_pass_input.setPlaceholderText(_translate("MainWindow", "Current Password"))
         self.new_pass_input.setPlaceholderText(_translate("MainWindow", "New Password"))
         self.confirm_pass_input_2.setPlaceholderText(_translate("MainWindow", "Confirm New Password"))
-        self.reset_pass_btn.setText(_translate("MainWindow", "Reset Password"))
+        self.reset_pass_btn.setText(_translate("MainWindow", "Change Password"))
         self.back_to_login_2.setText(_translate("MainWindow", "Log in"))
         self.go_to_signup.setText(_translate("MainWindow", "Sign up"))
 

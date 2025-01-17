@@ -234,7 +234,7 @@ import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'resources')))
 
-import icon_rc_3
+import icon_rc_4
 
 if __name__ == "__main__":
     import sys
