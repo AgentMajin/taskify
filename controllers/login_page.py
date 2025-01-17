@@ -3,14 +3,24 @@ Sample Login Page (No logic added)
 Run this Script to see the Login Page, if username = admin and password = admin, it will show "Login Successful" in the console.
 Otherwise, it will show "Login Failed! Check your username and password" in the label.
 '''
+import platform
 import re
 
+from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QMainWindow, QApplication
 import os
 import sys
 from context import database as db
 from context import localStorage
+
+import ctypes
+
+
+# Check if the operating system is not macOS & Linux
+if platform.system() not in ["Darwin", "Linux"]:
+    myappid = 'mycompany.myproduct.subproduct.version'  # arbitrary string
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ui import login_ui_2
@@ -20,6 +30,10 @@ class LoginController(QMainWindow):
         super().__init__()
         self.ui = login_ui_2.Ui_MainWindow()
         self.ui.setupUi(self)
+        self.setWindowTitle("Taskify")
+        window_icon = QtGui.QIcon()
+        window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(window_icon)
 
         self.ui.login_button.clicked.connect(self.authenticate_login)
         self.ui.signup_button.clicked.connect(self.authenticate_signup)

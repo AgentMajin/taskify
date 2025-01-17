@@ -47,6 +47,12 @@ class MainController(QMainWindow):
         self.selected_menu_item = None
         self.previous_clicked_task = None
 
+        # Config icon and app name
+        self.setWindowTitle("Taskify")
+        window_icon = QtGui.QIcon()
+        window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.setWindowIcon(window_icon)
+
         # Initialize the TaskModel
         self.task_model = TaskModel()
 
@@ -362,9 +368,4 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     main_window = MainController()
     main_window.showMaximized()
-    main_window.setWindowTitle("Taskify")
-    window_icon = QtGui.QIcon()
-    window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-    main_window.setWindowIcon(window_icon)
-    main_window.setStyle(QStyleFactory.create('Fusion'))
     sys.exit(app.exec_())
