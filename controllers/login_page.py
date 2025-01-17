@@ -31,9 +31,7 @@ class LoginController(QMainWindow):
         self.ui = login_ui_2.Ui_MainWindow()
         self.ui.setupUi(self)
         self.setWindowTitle("Taskify")
-        window_icon = QtGui.QIcon()
-        window_icon.addPixmap(QtGui.QPixmap(":/icon/icons/check_fill.png"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.setWindowIcon(window_icon)
+
 
         self.ui.login_button.clicked.connect(self.authenticate_login)
         self.ui.signup_button.clicked.connect(self.authenticate_signup)
