@@ -633,17 +633,17 @@ class Ui_MainWindow(object):
         self.due_date_input.setMinimumSize(QtCore.QSize(30, 0))
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.due_date_input.setFont(font)
         self.due_date_input.setStyleSheet("border: none;\n"
-                                           "color: #5f6368; padding:0px")
+                                           "color: #5f6368; padding:0px; font-weight: bold;")
         self.due_date_input.setObjectName("due_date_input")
         self.due_date_input.setDisplayFormat("dd/MM/yyyy")
 
 
         self.horizontalLayout_11.addWidget(self.due_date_input)
 
-        self.due_date_button = QtWidgets.QPushButton(self.due_date_frame)
+        self.due_date_button = QtWidgets.QLabel(self.due_date_frame)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
@@ -652,10 +652,10 @@ class Ui_MainWindow(object):
         self.due_date_button.setMinimumSize(QtCore.QSize(30, 0))
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.due_date_button.setFont(font)
         self.due_date_button.setStyleSheet("border: none; padding: 0px;\n"
-"color: #5f6368")
+"color: #5f6368;")
         self.due_date_button.setObjectName("due_date_button")
         self.horizontalLayout_11.addWidget(self.due_date_button)
         self.frame_2 = QtWidgets.QFrame(self.due_date_frame)
