@@ -535,7 +535,7 @@ class Ui_MainWindow(object):
         self.myday_check.setMinimumSize(QtCore.QSize(30, 0))
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.myday_check.setFont(font)
         self.myday_check.setStyleSheet(
                 "QCheckBox::indicator::unchecked { image: url(:/icon/icons/sun.png); height: "
@@ -586,7 +586,7 @@ class Ui_MainWindow(object):
         self.important_check.setMinimumSize(QtCore.QSize(30, 0))
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.important_check.setFont(font)
         self.important_check.setStyleSheet("QCheckBox::indicator::unchecked { image: url(:/icon/icons/star.png); height: "
                                      "22px; width: 22px}\n"
@@ -727,7 +727,7 @@ class Ui_MainWindow(object):
         self.delete_task_button.setMinimumSize(QtCore.QSize(30, 0))
         font = QtGui.QFont()
         font.setFamily("Microsoft JhengHei")
-        font.setPointSize(10)
+        font.setPointSize(12)
         self.delete_task_button.setFont(font)
         self.delete_task_button.setStyleSheet("border:none;\n"
 "color: #5f6368")
