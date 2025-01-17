@@ -244,7 +244,9 @@ class MainController(QMainWindow):
         self.ui.done_check_3.blockSignals(False)
 
         # Update to show Task Description
+        self.ui.input_note.blockSignals(True)
         self.ui.input_note.setText(task_data['description'])
+        self.ui.input_note.blockSignals(False)
 
         # Update created date of the Task
         self.ui.created_date_label.setText(f"Created on {task_data['created_date']}")
@@ -263,13 +265,16 @@ class MainController(QMainWindow):
             self.task_model.delete_task(self.current_task_id)
             QMessageBox.information(self, "Delete Task", "Task deleted!")
             self.load_all_tasks()
+            self.ui.task_details_frame.hide()
 
     def add_note(self):
         """
         Save a note for the currently selected task.
         """
         note_text = self.ui.input_note.text().strip()
-        if note_text:
+        current_note = self.task_model.get_a_task(self.current_task_id)
+        current_note = current_note['description']
+        if note_text != current_note:
             self.task_model.update_task(self.current_task_id, description=note_text)
             QMessageBox.information(self, "Description", "Your Description has been saved!")
             self.load_all_tasks()
@@ -327,9 +332,7 @@ class MainController(QMainWindow):
 
         sender = self.sender()
         parent_frame = sender.parent()
-        parent_frame_name = parent_frame.objectName()
         parent_frame.setStyleSheet("background-color: rgb(255, 255, 255);")
-
         self.selected_menu_item = parent_frame
 
     def get_user_infor(self):

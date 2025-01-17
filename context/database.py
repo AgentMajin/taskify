@@ -12,7 +12,6 @@ def connect_db() -> sqlite3.Connection:
     global db_context
     if(db_context is None):
         db_context = sqlite3.connect(db_path)
-        print("Connected to db")
     return db_context
 
     # cursor = connect_db().cursor()
