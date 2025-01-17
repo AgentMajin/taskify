@@ -636,7 +636,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.due_date_input.setFont(font)
         self.due_date_input.setStyleSheet("border: none;\n"
-                                           "color: #5f6368")
+                                           "color: #5f6368; padding:0px")
         self.due_date_input.setObjectName("due_date_input")
         self.due_date_input.setDisplayFormat("dd/MM/yyyy")
 
@@ -654,7 +654,7 @@ class Ui_MainWindow(object):
         font.setFamily("Microsoft JhengHei")
         font.setPointSize(10)
         self.due_date_button.setFont(font)
-        self.due_date_button.setStyleSheet("border: none;\n"
+        self.due_date_button.setStyleSheet("border: none; padding: 0px;\n"
 "color: #5f6368")
         self.due_date_button.setObjectName("due_date_button")
         self.horizontalLayout_11.addWidget(self.due_date_button)
