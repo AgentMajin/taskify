@@ -1,33 +1,57 @@
-<h1>How to Setup</h1>
+# Taskify - Advanced Task Management System
 
-<h2>Prerequisites</h2>
-<ul>
-  <li>Python 3.7 and above.</li>
-  <li>Pip installed.</li>
-</ul>
+## 📄 Overview
 
-<h2>Setup Steps (Windows - Command Prompt)</h2>
-<ol>
-  <li>Clone the repository:
-    <pre><code>git clone https://github.com/AgentMajin/uit_python_to-do</code></pre>
-  </li>
-  <li>Navigate to the project directory:
-    <pre><code>cd uit_python_to-do</code></pre>
-  </li>
-  <li>Install <code>virtualenv</code> (if not already installed):
-    <pre><code>pip install virtualenv</code></pre>
-  </li>
-  <li>Create a new virtual environment:
-    <pre><code>virtualenv venv</code></pre>
-  </li>
-  <li>Activate the virtual environment:
-    <pre><code>venv\Scripts\activate</code></pre>
-  </li>
-  <li>Install the project dependencies:
-    <pre><code>pip install -r requirements.txt</code></pre>
-  </li>
-</ol>
+Taskify is an open-source task management application designed for simplicity, efficiency, and scalability. Developed using **Python** and **PyQt5**, it offers a clean, modular architecture that makes task management intuitive for users and customizable for developers.
 
-<h2>Run App</h2>
-    <pre><code>python main.py</code></pre>
+---
 
+## 🚀 Key Features
+
+### User Interface
+- Responsive and visually appealing design with **PyQt5**.
+- High DPI scaling support for seamless visuals across devices.
+
+### Data Management
+- Local data storage using **SQLite**, ensuring fast and secure operations.
+- Advanced filtering and querying capabilities for efficient task management.
+
+### Customizable Architecture
+- Built using the **Model-View-Controller (MVC)** pattern for modular and maintainable development.
+- Easily extendable for adding features like cloud integration or third-party APIs.
+
+### Task Organization
+- Dynamic filtering options: prioritize tasks by attributes like `due_date`, `important`, or `completed`.
+- Keyword search functionality for quick access to tasks.
+
+### Extensibility
+- Prepare for integrations like cloud synchronization and multi-platform support.
+- UI components and workflows can be tailored to specific needs.
+
+---
+
+## 🎯 Technical Objectives
+
+- **Scalability:** Efficiently handle a growing number of tasks.
+- **Cross-platform Compatibility:** Runs on Windows, Linux, and macOS.
+- **Security:** Maintain data integrity with robust database practices.
+- **Maintainability:** Modular design for ease of future development and updates.
+
+---
+
+## 📥 How to Use
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-repo/taskify.git
+   cd taskify
+
+2. Install Dependencies:
+   ```bash
+   pip install -r requirements.txt
+
+3. Run the application
+   ```bash
+   python main.py  
